@@ -17,6 +17,8 @@ class MyHome extends StatefulWidget {
 class _MyAppState extends State<MyHome> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         children: [
