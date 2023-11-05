@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:counter/utils/devcoop_colors.dart';
+import 'package:counter/presentation/utils/devcoop_colors.dart';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
