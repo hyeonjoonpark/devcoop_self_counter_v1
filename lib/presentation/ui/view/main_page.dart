@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:counter/presentation/utils/devcoop_colors.dart';
 import 'package:counter/presentation/utils/self_counter_button.dart';
+import 'package:counter/presentation/ui/view/barcode_page.dart';
 
 void main() {
   runApp(MaterialApp(home: MyHome()));
@@ -23,7 +24,14 @@ class _MyAppState extends State<MyHome> {
             child: Container(
               margin: const EdgeInsets.only(top: 600), // 사용자 지정 단위로 마진 설정
               child: CounterElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Barcode(),
+                    ),
+                  );
+                },
                 text: "touch to start",
                 buttonStyle: ButtonStyle(
                   backgroundColor:
