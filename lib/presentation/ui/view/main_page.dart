@@ -35,7 +35,16 @@ class _MyAppState extends State<MyHome> {
                 text: "touch to start",
                 buttonStyle: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(DevCoopColors.white),
+                      MaterialStateProperty.all(DevCoopColors.transparent),
+
+                  elevation: MaterialStateProperty.all(0), // 그림자 비활성화
+
+                  side: MaterialStateProperty.all(
+                    const BorderSide(
+                      color: DevCoopColors.transparent, // 원하는 테두리 색상 설정
+                      width: 2.0, // 테두리 두께 설정
+                    ),
+                  ),
                 ),
                 textStyle: const TextStyle(
                   fontSize: 40,
