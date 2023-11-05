@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Barcode(),
+    home: CheckStudent(),
   ));
 }
 
-class Barcode extends StatefulWidget {
-  Barcode();
+class CheckStudent extends StatefulWidget {
+  CheckStudent();
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<Barcode> {
+class _MyAppState extends State<CheckStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +24,8 @@ class _MyAppState extends State<Barcode> {
             Container(
               margin: const EdgeInsets.only(top: 150),
               child: const Text(
-                "학생 바코드를\n 스캔해주세요",
+                "0000 홍길동 학생 \n 잔액 0000원 조회되었습니다",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30,
                   color: DevCoopColors.black,
@@ -35,9 +36,9 @@ class _MyAppState extends State<Barcode> {
             Container(
               margin: EdgeInsets.only(top: 100),
               child: Image.asset(
-                'assets/barcode.png',
-                width: 300,
-                height: 300,
+                'assets/accept.png',
+                width: 200,
+                height: 200,
               ),
             ),
           ],

@@ -7,10 +7,11 @@ class CounterElevatedButton extends StatelessWidget {
   final TextStyle textStyle;
 
   CounterElevatedButton(
-      {required this.text,
-      required this.onPressed,
-      required this.buttonStyle,
-      required this.textStyle});
+    {required this.text,
+    required this.onPressed,
+    required this.buttonStyle,
+    required this.textStyle}
+  );
 
   @override
   Widget build(BuildContext context) {
