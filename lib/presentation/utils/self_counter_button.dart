@@ -1,4 +1,3 @@
-import 'package:counter/presentation/utils/devcoop_colors.dart';
 import 'package:flutter/material.dart';
 
 class CounterElevatedButton extends StatelessWidget {
