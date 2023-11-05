@@ -21,7 +21,7 @@ class _MyAppState extends State<MyHome> {
         children: [
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: 600), // 사용자 지정 단위로 마진 설정
+              margin: const EdgeInsets.only(top: 600), // 사용자 지정 단위로 마진 설정
               child: CounterElevatedButton(
                   onPressed: () {},
                   text: "touch to start",
