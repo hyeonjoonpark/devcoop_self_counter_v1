@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:counter/presentation/utils/devcoop_colors.dart';
 
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(home: MyHome()));
 }
 
-class MyApp extends StatefulWidget {
-  MyApp();
+class MyHome extends StatefulWidget {
+  MyHome();
 
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
