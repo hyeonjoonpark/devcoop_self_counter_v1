@@ -23,16 +23,17 @@ class _MyAppState extends State<MyHome> {
             child: Container(
               margin: const EdgeInsets.only(top: 600), // 사용자 지정 단위로 마진 설정
               child: CounterElevatedButton(
-                  onPressed: () {},
-                  text: "touch to start",
-                  buttonStyle: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(DevCoopColors.white),
-                  ),
-                  textStyle: TextStyle(
-                    fontSize: 40,
-                    color: DevCoopColors.black,
-                  )),
+                onPressed: () {},
+                text: "touch to start",
+                buttonStyle: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(DevCoopColors.white),
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 40,
+                  color: DevCoopColors.black,
+                ),
+              ),
             ),
           )
         ],
