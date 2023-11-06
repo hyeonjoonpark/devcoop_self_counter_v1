@@ -1,4 +1,5 @@
 import 'package:counter/presentation/ui/components/all_items_count.dart';
+import 'package:counter/presentation/ui/components/payments_popup.dart';
 import 'package:counter/presentation/utils/devcoop_colors.dart';
 import 'package:counter/presentation/utils/self_counter_button.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,12 @@ class _MyAppState extends State<Payments> {
               margin: const EdgeInsets.only(left: 856, top: 40),
               child: CounterElevatedButton(
                 onPressed: () {
-
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return paymentsPopUp(context);
+                    },
+                  );
                 },
                 text: "계산하기",
                 buttonStyle: ButtonStyle(
@@ -82,7 +88,7 @@ class _MyAppState extends State<Payments> {
                   ),
                 ),
                 textStyle: const TextStyle(
-                  fontSize: 40,
+                  fontSize: 32,
                   color: DevCoopColors.black,
                 ),
               ),
