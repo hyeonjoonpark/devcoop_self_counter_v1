@@ -6,11 +6,11 @@ import 'package:counter/presentation/ui/view/main_page.dart';
 Widget paymentsPopUp(BuildContext context) {
   return Center(
       child: AlertDialog(
-        title: Text('1400원을 결제할게요'),
+        title: const Text('1400원을 결제할게요'),
         content: Container(
           width: 520,
           height: 320,
-          child: Text(
+          child: const Text(
             "잠시후에 처음화면으로 돌아갑니다",
             style: TextStyle(
               color: DevCoopColors.black,
@@ -34,7 +34,7 @@ Widget paymentsPopUp(BuildContext context) {
               backgroundColor: MaterialStateProperty.all(DevCoopColors.primary),
               alignment: Alignment.center,
             ),
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               color: DevCoopColors.black,
               fontWeight: FontWeight.w900,
               fontSize: 32,
