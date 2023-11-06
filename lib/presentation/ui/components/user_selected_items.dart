@@ -11,7 +11,7 @@ Widget userSelectedItems(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center, // Row를 가로로 중앙에 정렬
           children: [
             Container(
-              padding: EdgeInsets.only(right:304, top: 24),
+              padding: const EdgeInsets.only(right:304, top: 24),
               child: const Text(
                 "상품 이름",
                 style: TextStyle(
@@ -23,7 +23,7 @@ Widget userSelectedItems(BuildContext context) {
             ),
 
             Container(
-              padding: EdgeInsets.only(left: 400, right: 24, top: 24),
+              padding: const EdgeInsets.only(left: 400, right: 24, top: 24),
               child: const Text(
                 "수량",
                 style: TextStyle(
@@ -35,7 +35,7 @@ Widget userSelectedItems(BuildContext context) {
             ),
 
             Container(
-              padding: EdgeInsets.only(right: 16, top: 24),
+              padding: const EdgeInsets.only(right: 16, top: 24),
               child: const Text(
                 "상품 가격",
                 style: TextStyle(

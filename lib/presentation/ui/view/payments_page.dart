@@ -25,8 +25,8 @@ class _MyAppState extends State<Payments> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 56),
-              child: Text(
+              margin: const EdgeInsets.only(top: 56),
+              child: const Text(
                 "0000 홍길동 학생  |  잔액 0000원",
                 style: TextStyle(
                   color: DevCoopColors.black,
@@ -37,8 +37,8 @@ class _MyAppState extends State<Payments> {
             ),
             Container(
               width: screenWidth * 0.7,
-              margin: EdgeInsets.only(top: 32),
-              child: Divider( // Divider 위젯을 사용하여 가로 줄을 그립니다.
+              margin: const EdgeInsets.only(top: 32),
+              child: const Divider( // Divider 위젯을 사용하여 가로 줄을 그립니다.
                 color: Colors.black, // 가로 줄의 색상을 지정할 수 있습니다.
                 thickness: 4, // 가로 줄의 두께를 조절할 수 있습니다.
               ),
@@ -48,8 +48,8 @@ class _MyAppState extends State<Payments> {
 
             Container(
               width: screenWidth * 0.7,
-              margin: EdgeInsets.only(top: 440),
-              child: Divider( // Divider 위젯을 사용하여 가로 줄을 그립니다.
+              margin: const EdgeInsets.only(top: 440),
+              child: const Divider( // Divider 위젯을 사용하여 가로 줄을 그립니다.
                 color: Colors.black, // 가로 줄의 색상을 지정할 수 있습니다.
                 thickness: 4, // 가로 줄의 두께를 조절할 수 있습니다.
               ),
@@ -58,7 +58,7 @@ class _MyAppState extends State<Payments> {
             allItemsCount(context),
 
             Container(
-              margin: EdgeInsets.only(left: 856, top: 40),
+              margin: const EdgeInsets.only(left: 856, top: 40),
               child: CounterElevatedButton(
                 onPressed: () {
 
