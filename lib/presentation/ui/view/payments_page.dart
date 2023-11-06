@@ -58,7 +58,7 @@ class _MyAppState extends State<Payments> {
             allItemsCount(context),
 
             Container(
-              margin: EdgeInsets.only(left: 776, top: 40),
+              margin: EdgeInsets.only(left: 856, top: 40),
               child: CounterElevatedButton(
                 onPressed: () {
 
