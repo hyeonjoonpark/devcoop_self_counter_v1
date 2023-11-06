@@ -21,7 +21,7 @@ Widget paymentsPopUp(BuildContext context) {
         ),
         actions: [
           CounterElevatedButton(
-            text: "닫기",
+            text: "홈으로 돌아가기",
             onPressed: () {
               Navigator.pushReplacement(
                 context,
