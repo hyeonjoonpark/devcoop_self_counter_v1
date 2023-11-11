@@ -23,6 +23,7 @@ Widget allItemsCount(BuildContext context) {
 
             Container(
               padding: const EdgeInsets.only(left: 330, right: 64, top: 24),
+              alignment: Alignment.center,
               child: const Text(
                 "1",
                 style: TextStyle(
