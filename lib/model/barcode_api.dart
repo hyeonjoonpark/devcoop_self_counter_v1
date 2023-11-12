@@ -25,6 +25,9 @@ Future<void> login(BuildContext context) async {
 
   final response = await http.post(
     Uri.parse('http://localhost:8080/kiosk/auth/signIn'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
     body: jsonData,
   );
 
