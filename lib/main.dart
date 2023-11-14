@@ -1,19 +1,26 @@
+import 'package:counter/state/_constnat/init_binding.dart';
+import 'package:counter/ui/_constant/util/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:counter/presentation/ui/view/main_page.dart';
+import 'package:get/get.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'BSM SelfCounter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHome(),
+      initialBinding: InitBinding(),
+      getPages: AppRouter,
+      initialRoute: '/',
     );
   }
 }
