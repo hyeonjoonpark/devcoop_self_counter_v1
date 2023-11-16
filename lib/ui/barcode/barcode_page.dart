@@ -39,7 +39,7 @@ class BarcodePage extends StatelessWidget {
         final response = await http.post(
           Uri.parse(apiUrl),
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
           },
           body: jsonData,
         );
