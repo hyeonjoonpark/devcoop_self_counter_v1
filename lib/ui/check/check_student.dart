@@ -21,6 +21,7 @@ class CheckStudent extends StatefulWidget {
 class _CheckStudentState extends State<CheckStudent> {
   late String savedStudentName = ''; // Initialize with a default value
   late int savedPoint = 0; // Initialize with a default value
+  late String savedCodeNumber = '';
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _CheckStudentState extends State<CheckStudent> {
       String? savedPin = prefs.getString('pin');
       savedPoint = prefs.getInt('point') ?? 0;
       savedStudentName = prefs.getString('studentName') ?? '';
+      savedCodeNumber = prefs.getString('codeNumber') ?? '';
 
       if (savedCodeNumber != null && savedPin != null) {
         print("Getting UserInfo");
