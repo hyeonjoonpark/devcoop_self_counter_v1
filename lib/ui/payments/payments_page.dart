@@ -1,4 +1,5 @@
 import 'package:counter/ui/payments/widgets/payments_item.dart';
+import 'package:counter/ui/payments/widgets/payments_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,6 +38,15 @@ class _PaymentsPageState extends State<PaymentsPage> {
     } catch (e) {
       print('Error during loading data: $e');
     }
+  }
+
+  void showPaymentsPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return paymentsPopUp(context);
+      },
+    );
   }
 
   @override
@@ -131,7 +141,9 @@ class _PaymentsPageState extends State<PaymentsPage> {
                   ),
                   mainTextButton(
                     text: '계산하기',
-                    onTap: () {},
+                    onTap: () {
+                      showPaymentsPopup(context);
+                    },
                   ),
                 ],
               ),
