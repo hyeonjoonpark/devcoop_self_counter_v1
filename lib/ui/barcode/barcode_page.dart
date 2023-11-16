@@ -48,7 +48,8 @@ class BarcodePage extends StatelessWidget {
           print("로그인 성공");
 
           Map<String, dynamic> responseBody =
-              json.decode(response.body) as Map<String, dynamic>;
+              jsonDecode(utf8.decode(response.bodyBytes))
+                  as Map<String, dynamic>;
 
           String codeNumber = responseBody['data']['user']['codeNumber'];
           String pin = responseBody['data']['user']['pin'];

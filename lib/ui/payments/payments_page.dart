@@ -41,7 +41,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
       print(response.body);
 
       if (response.statusCode == 200) {
-        final List<dynamic> itemJsonList = jsonDecode(response.body);
+        final List<dynamic> itemJsonList =
+            jsonDecode(utf8.decode(response.body.codeUnits));
         final Map<String, dynamic> responseBody = itemJsonList.first;
         final String itemName = responseBody['name'];
         final int itemPrice = responseBody['price'];
