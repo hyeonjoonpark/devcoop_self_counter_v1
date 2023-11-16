@@ -125,7 +125,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
               Row(
                 children: [
                   Text(
-                    '$savedStudentName 학생  |  $savedPoint 잔액 원',
+                    '$savedStudentName 학생  |  $savedPoint 원',
                     style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
