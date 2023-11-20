@@ -7,67 +7,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:counter/controller/save_user_info.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 
-class BarcodePage extends StatelessWidget {
-  const BarcodePage({Key? key});
+class BarcodePage extends StatefulWidget {
+  const BarcodePage({Key? key}) : super(key: key);
+
+  @override
+  _BarcodePageState createState() => _BarcodePageState();
+}
+
+class _BarcodePageState extends State<BarcodePage> {
+  final TextEditingController _codeNumberController = TextEditingController();
+  final TextEditingController _pinController = TextEditingController();
+  final FocusNode _pinFocus = FocusNode();
+  TextEditingController? _activeController; // Track active input field
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _codeNumberController = TextEditingController();
-    final TextEditingController _pinController = TextEditingController();
-
-    void onNumberButtonPressed(int number) {
-      String currentText = _codeNumberController.text;
-      String newText = '$currentText$number';
-      _codeNumberController.text = newText;
-    }
-
-    Future<void> _login(BuildContext context) async {
-      String codeNumber = _codeNumberController.text;
-      String pin = _pinController.text;
-
-      Map<String, String> requestBody = {'codeNumber': codeNumber, 'pin': pin};
-      String jsonData = json.encode(requestBody);
-
-      String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
-
-      try {
-        final response = await http.post(
-          Uri.parse(apiUrl),
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-          },
-          body: jsonData,
-        );
-
-        if (response.statusCode == 200) {
-          print("로그인 성공");
-
-          Map<String, dynamic> responseBody =
-              jsonDecode(utf8.decode(response.bodyBytes))
-                  as Map<String, dynamic>;
-
-          String codeNumber = responseBody['data']['user']['codeNumber'];
-          String pin = responseBody['data']['user']['pin'];
-          int point = responseBody['data']['user']['point'];
-          String studentName = responseBody['data']['user']['studentName'];
-
-          saveUserData(codeNumber, pin, point, studentName);
-          print("저장성공");
-
-          Get.toNamed('/check');
-        }
-      } catch (e) {
-        print(e);
-      }
-    }
-
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(
-          vertical: 50,
+          vertical: 30,
           horizontal: 90,
         ),
         alignment: Alignment.center,
@@ -93,25 +53,25 @@ class BarcodePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             for (int j = 0; j < 3; j++) ...[
-                              if (i != 3 && (j != 0 || j != 2) ||
-                                  (i == 3 && j == 1)) ...[
+                              if (i != 3 || (j != 0 && j != 2)) ...[
                                 GestureDetector(
                                   onTap: () {
-                                    onNumberButtonPressed((j + 1) + (i * 3));
+                                    int number = (j + 1) + (i * 3);
+                                    onNumberButtonPressed(
+                                        number == 11 ? 0 : number % 10);
                                   },
                                   child: Container(
                                     width: 95,
                                     height: 95,
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                        10,
-                                      ),
+                                      borderRadius: BorderRadius.circular(10),
                                       color: const Color(0xFFD9D9D9),
                                     ),
                                     child: Text(
                                       '${i != 3 ? (j + 1) + (i * 3) : 0}',
-                                      style: DevCoopTextStyle.light_40.copyWith(
+                                      style: TextStyle(
+                                        fontSize: 40,
                                         color: DevCoopColors.black,
                                       ),
                                     ),
@@ -126,8 +86,8 @@ class BarcodePage extends StatelessWidget {
                               if (j < 2) ...[
                                 const SizedBox(
                                   width: 47,
-                                )
-                              ]
+                                ),
+                              ],
                             ],
                           ],
                         ),
@@ -162,35 +122,44 @@ class BarcodePage extends StatelessWidget {
                             width: 20,
                           ),
                           Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 34,
-                                horizontal: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFECECEC),
-                                borderRadius: BorderRadius.circular(
-                                  20,
+                            child: GestureDetector(
+                              onTap: () {
+                                _setActiveController(_codeNumberController);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 34,
+                                  horizontal: 12,
                                 ),
-                              ),
-                              child: TextFormField(
-                                controller: _codeNumberController,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp(
-                                      '[0-9]',
-                                    ),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFECECEC),
+                                  borderRadius: BorderRadius.circular(
+                                    20,
                                   ),
-                                ],
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.zero,
-                                  isDense: true,
-                                  hintText: '학생증을 리더기에 스캔해주세요',
-                                  hintStyle: DevCoopTextStyle.medium_30
-                                      .copyWith(fontSize: 15),
-                                  border: InputBorder.none,
                                 ),
-                                maxLines: 1,
+                                child: TextField(
+                                  controller: _codeNumberController,
+                                  focusNode:
+                                      _activeController == _codeNumberController
+                                          ? _pinFocus
+                                          : null,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp(
+                                        '[0-9]',
+                                      ),
+                                    ),
+                                  ],
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    isDense: true,
+                                    hintText: '학생증을 리더기에 스캔해주세요',
+                                    hintStyle: DevCoopTextStyle.medium_30
+                                        .copyWith(fontSize: 15),
+                                    border: InputBorder.none,
+                                  ),
+                                  maxLines: 1,
+                                ),
                               ),
                             ),
                           ),
@@ -215,37 +184,48 @@ class BarcodePage extends StatelessWidget {
                             width: 20,
                           ),
                           Expanded(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 34,
-                                horizontal: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFECECEC),
-                                borderRadius: BorderRadius.circular(
-                                  20,
+                            child: GestureDetector(
+                              onTap: () {
+                                _setActiveController(_pinController);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 34,
+                                  horizontal: 12,
                                 ),
-                              ),
-                              child: TextFormField(
-                                controller: _pinController,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp(
-                                      '[0-9]',
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFECECEC),
+                                  borderRadius: BorderRadius.circular(
+                                    20,
+                                  ),
+                                ),
+                                child: TextField(
+                                  controller: _pinController,
+                                  focusNode: _activeController == _pinController
+                                      ? _pinFocus
+                                      : null,
+                                  onChanged: (value) {
+                                    // Handle pin input changes if needed
+                                  },
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                      RegExp(
+                                        '[0-9]',
+                                      ),
                                     ),
+                                  ],
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    isDense: true,
+                                    hintText: '자신의 핀번호를 입력해주세요',
+                                    hintStyle:
+                                        DevCoopTextStyle.medium_30.copyWith(
+                                      fontSize: 15,
+                                    ),
+                                    border: InputBorder.none,
                                   ),
-                                ],
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.zero,
-                                  isDense: true,
-                                  hintText: '자신의 핀번호를 입력해주세요',
-                                  hintStyle:
-                                      DevCoopTextStyle.medium_30.copyWith(
-                                    fontSize: 15,
-                                  ),
-                                  border: InputBorder.none,
+                                  maxLines: 1,
                                 ),
-                                maxLines: 1,
                               ),
                             ),
                           ),
@@ -257,7 +237,7 @@ class BarcodePage extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             mainTextButton(
               text: '확인',
@@ -269,5 +249,62 @@ class BarcodePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onNumberButtonPressed(int number) {
+    String currentText = _activeController?.text ?? '';
+
+    // 0을 눌렀을 때는 0이 입력되고, 이전에 입력한 숫자 뒤에 0을 추가하도록 수정
+    if (number == 0) {
+      _activeController?.text = '$currentText$number';
+    } else {
+      String newText = currentText + number.toString();
+      _activeController?.text = newText;
+    }
+  }
+
+  void _setActiveController(TextEditingController controller) {
+    setState(() {
+      _activeController = controller;
+    });
+  }
+
+  Future<void> _login(BuildContext context) async {
+    String codeNumber = _codeNumberController.text;
+    String pin = _pinController.text;
+
+    Map<String, String> requestBody = {'codeNumber': codeNumber, 'pin': pin};
+    String jsonData = json.encode(requestBody);
+
+    String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: jsonData,
+      );
+
+      if (response.statusCode == 200) {
+        print("로그인 성공");
+
+        Map<String, dynamic> responseBody =
+            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+
+        String codeNumber = responseBody['data']['user']['codeNumber'];
+        String pin = responseBody['data']['user']['pin'];
+        int point = responseBody['data']['user']['point'];
+        String studentName = responseBody['data']['user']['studentName'];
+
+        saveUserData(codeNumber, pin, point, studentName);
+        print("저장성공");
+
+        Get.toNamed('/check');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
