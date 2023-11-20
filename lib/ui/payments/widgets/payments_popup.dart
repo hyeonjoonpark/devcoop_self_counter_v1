@@ -25,7 +25,7 @@ void navigateToNextPage() {
 }
 
 AlertDialog paymentsPopUp(BuildContext context, int totalPrice) {
-  // Delayed navigation after 5 seconds
+  // Delayed navigation after 3 seconds
   Future.delayed(const Duration(seconds: 3), () {
     removeUserData();
     navigateToNextPage();
