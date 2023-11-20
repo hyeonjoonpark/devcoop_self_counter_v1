@@ -103,6 +103,48 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
   }
 
+  Future<void> savePayLog(int totalPrice) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? savedCodeNumber = prefs.getString('codeNumber');
+    String? savedStudentName = prefs.getString('studentName');
+
+    if (savedCodeNumber != null && savedStudentName != null) {
+      print("Getting UserInfo");
+      print('Data loaded from SharedPreferences');
+    }
+
+    try {
+      final apiUrl = 'http://localhost:8080/kiosk/save/paylog';
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<dynamic, dynamic>{
+          "codeNumber": savedCodeNumber,
+          "type": 0,
+          "innerPoint": totalPrice,
+          "chargerId": "kiosk",
+          "verifyKey": "test",
+          "studentName": savedStudentName,
+        }),
+      );
+
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        // 요청이 성공적으로 처리되었을 때의 동작 추가
+        print('Points deducted successfully');
+      } else {
+        // 요청이 실패했을 때의 동작 추가
+        print('Failed to deduct points');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> deductPoints() async {
     try {
       final apiUrl = 'http://localhost:8080/kiosk';
@@ -271,6 +313,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                     mainTextButton(
                       text: '계산하기',
                       onTap: () {
+                        savePayLog(totalPrice);
                         showPaymentsPopup(context, totalPrice);
                       },
                     ),
