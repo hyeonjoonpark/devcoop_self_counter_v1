@@ -20,7 +20,7 @@ class _BarcodePageState extends State<BarcodePage> {
   final TextEditingController _codeNumberController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
   final FocusNode _pinFocus = FocusNode();
-  TextEditingController? _activeController; // Track active input field
+  TextEditingController? _activeController;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,7 @@ class _BarcodePageState extends State<BarcodePage> {
                                     ),
                                     child: Text(
                                       '${i != 3 ? (j + 1) + (i * 3) : 0}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 40,
                                         color: DevCoopColors.black,
                                       ),
@@ -297,8 +297,9 @@ class _BarcodePageState extends State<BarcodePage> {
         String pin = responseBody['data']['user']['pin'];
         int point = responseBody['data']['user']['point'];
         String studentName = responseBody['data']['user']['studentName'];
+        int userId = responseBody['data']['user']['studentNumber'];
 
-        saveUserData(codeNumber, pin, point, studentName);
+        saveUserData(codeNumber, pin, point, studentName, userId);
         print("저장성공");
 
         Get.toNamed('/check');
