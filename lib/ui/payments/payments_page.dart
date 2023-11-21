@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +21,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
   String savedStudentName = '';
   int savedPoint = 0;
   int totalPrice = 0;
-  String savedCodeNumber = ''; // 수정: null 허용
+  String? savedCodeNumber; // 수정: null 허용
+  String? savedUserId; // 수정: null 허용
   List<ItemResponseDto> itemResponses = [];
 
   TextEditingController barcodeController = TextEditingController();
@@ -39,7 +41,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
       setState(() {
         savedPoint = prefs.getInt('point') ?? 0;
         savedStudentName = prefs.getString('studentName') ?? '';
-        savedCodeNumber = prefs.getString('codeNumber')!;
+        savedCodeNumber = prefs.getString('codeNumber'); // 수정
+        savedUserId = prefs.getString('studentName'); // 수정
       });
 
       if (savedPoint != 0 && savedStudentName.isNotEmpty) {
@@ -55,9 +58,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
   }
 
-  Future<void> fetchItemData(String barcode) async {
+  // fetchItemData 함수에서 ItemResponseDto 생성자 호출 시 itemId 추가
+  Future<void> fetchItemData(String barcode, int quantity) async {
     try {
-      final apiUrl = 'http://localhost:8080/kiosk';
+      const apiUrl = 'http://localhost:8080/kiosk';
       final response =
           await http.get(Uri.parse('$apiUrl/itemSelect?barcodes=$barcode'));
 
@@ -68,14 +72,34 @@ class _PaymentsPageState extends State<PaymentsPage> {
             jsonDecode(utf8.decode(response.bodyBytes));
         final Map<String, dynamic> responseBody = itemJsonList.first;
         final String itemName = responseBody['name'];
-        final int itemPrice = responseBody['price'];
+        final dynamic rawItemPrice = responseBody['price'];
+        final String itemPrice =
+            rawItemPrice?.toString() ?? '0'; // 수정: null 체크 및 기본값 설정
 
         setState(() {
-          final item =
-              ItemResponseDto(itemName: itemName, itemPrice: itemPrice);
-          itemResponses.add(item);
+          final existingItemIndex = itemResponses.indexWhere(
+            (existingItem) => existingItem.itemId == barcode,
+          );
 
-          totalPrice += itemPrice;
+          print(existingItemIndex);
+
+          if (existingItemIndex != -1) {
+            // 이미 추가된 아이템이 있다면 갯수를 증가시키고 총 가격 업데이트
+            final existingItem = itemResponses[existingItemIndex];
+            existingItem.quantity += 1;
+            totalPrice += existingItem.itemPrice;
+            itemResponses[existingItemIndex] = existingItem; // 업데이트된 아이템 다시 저장
+          } else {
+            // 새로운 아이템 추가
+            final item = ItemResponseDto(
+              itemName: itemName ?? '',
+              itemPrice: int.parse(itemPrice),
+              itemId: barcode,
+              quantity: 1, // 새로운 아이템의 기본 갯수는 1로 설정
+            );
+            itemResponses.add(item);
+            totalPrice += int.parse(itemPrice);
+          }
         });
       }
     } catch (e) {
@@ -95,8 +119,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
 
   void handleBarcodeSubmit() {
     String barcode = barcodeController.text;
+
+    int quantity = 1;
+
     if (barcode.isNotEmpty) {
-      fetchItemData(barcode);
+      fetchItemData(
+        barcode,
+        quantity,
+      );
 
       // 상품 선택 후 바코드 입력창 초기화
       barcodeController.clear();
@@ -115,7 +145,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
 
     try {
-      final apiUrl = 'http://localhost:8080/kiosk/save/paylog';
+      const apiUrl = 'http://localhost:8080/kiosk/save/paylog';
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
@@ -147,7 +177,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
 
   Future<void> deductPoints() async {
     try {
-      final apiUrl = 'http://localhost:8080/kiosk';
+      const apiUrl = 'http://localhost:8080/kiosk';
 
       Map<String, dynamic> requestBody = {
         'codeNumber': savedCodeNumber,
@@ -156,6 +186,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
       String jsonData = json.encode(requestBody);
 
       print(jsonData);
+
       final response = await http.put(
         Uri.parse('$apiUrl/pay'),
         headers: {
@@ -176,6 +207,41 @@ class _PaymentsPageState extends State<PaymentsPage> {
     } catch (e) {
       // 예외 처리
       print('Error occurred while deducting points: $e');
+    }
+  }
+
+  Future<void> sendRequestsForItems(List<ItemResponseDto> items) async {
+    for (ItemResponseDto item in items) {
+      try {
+        if (savedUserId != null) {
+          // Check if savedUserId is not null
+          const apiUrl = 'http://localhost:8080/kiosk/save/receipt';
+          final response = await http.post(
+            Uri.parse(apiUrl),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<dynamic, dynamic>{
+              'dcmSaleAmt': item.itemPrice,
+              'itemId': item.itemId,
+              'saleYn': "Y",
+              'userId': savedUserId,
+              'itemName': item.itemName,
+              'saleQty': 1,
+            }),
+          );
+
+          print(response.body);
+
+          if (response.statusCode == 200) {
+            print('${item.itemName}에 대한 영수증이 성공적으로 저장되었습니다.');
+          } else {
+            print('${item.itemName}에 대한 영수증 저장 실패');
+          }
+        }
+      } catch (e) {
+        print('영수증을 저장하는 동안 오류가 발생했습니다: $e');
+      }
     }
   }
 
@@ -209,19 +275,19 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 children: [
                   Text(
                     '$savedStudentName 학생  |  $savedPoint 원',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: TextFormField(
                       // TextFormField로 변경
                       controller: barcodeController,
                       focusNode: barcodeFocusNode,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: '바코드 입력',
                       ),
                       onFieldSubmitted: (_) {
@@ -229,7 +295,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                       },
                     ),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   mainTextButton(
                     text: '상품선택',
                     onTap: () {
@@ -271,10 +337,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
                                   i++) ...[
                                 paymentsItem(
                                   left: itemResponses[i].itemName ?? '',
-                                  center: '1',
-                                  rightText: itemResponses[i].itemPrice != null
-                                      ? itemResponses[i].itemPrice.toString()
-                                      : '0',
+                                  center: '${itemResponses[i].quantity}',
+                                  rightText:
+                                      itemResponses[i].itemPrice?.toString() ??
+                                          '0',
                                   totalText: false,
                                 ),
                                 if (i < itemResponses.length - 1) ...[
@@ -306,13 +372,20 @@ class _PaymentsPageState extends State<PaymentsPage> {
                       ),
                       child: paymentsItem(
                         left: '총 상품 개수 및 합계',
-                        center: itemResponses.length.toString(),
+                        center: itemResponses
+                            .map<int>((item) => item.quantity)
+                            .fold<int>(
+                                0,
+                                (previousValue, element) =>
+                                    previousValue + element)
+                            .toString(),
                         rightText: totalPrice.toString(), // 수정: 값을 String으로 변환
                       ),
                     ),
                     mainTextButton(
                       text: '계산하기',
                       onTap: () {
+                        sendRequestsForItems(itemResponses);
                         savePayLog(totalPrice);
                         showPaymentsPopup(context, totalPrice);
                       },
@@ -326,43 +399,4 @@ class _PaymentsPageState extends State<PaymentsPage> {
       ),
     );
   }
-}
-
-AlertDialog paymentsPopUp(BuildContext context, int totalPrice) {
-  // Delayed navigation after 5 seconds
-  Future.delayed(const Duration(seconds: 3), () {
-    removeUserData();
-    navigateToNextPage();
-  });
-
-  return AlertDialog(
-    content: Container(
-      width: 520,
-      height: 320,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '$totalPrice원을 결제할게요',
-            style: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            "잠시후에 처음화면으로 돌아갑니다",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }
