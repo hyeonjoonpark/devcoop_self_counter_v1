@@ -94,7 +94,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
             final item = ItemResponseDto(
               itemName: itemName ?? '',
               itemPrice: int.parse(itemPrice),
-              itemId: barcode,
+              itemId: int.parse(barcode),
               quantity: 1, // 새로운 아이템의 기본 갯수는 1로 설정
             );
             itemResponses.add(item);
@@ -221,16 +221,17 @@ class _PaymentsPageState extends State<PaymentsPage> {
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode(<dynamic, dynamic>{
-              'dcmSaleAmt': item.itemPrice,
-              'itemId': item.itemId,
+            body: jsonEncode(<String, dynamic>{
+              'itemId': item.itemId, // 수정: itemId 추가
+              'itemName': item.itemName, // 수정: itemName 추가
+              'saleQty': item.quantity, // 수정: quantity를 saleQty에 추가
+              'dcmSaleAmt': item.itemPrice, // 수정: itemPrice를 dcmSaleAmt에 추가
               'saleYn': "Y",
               'userId': savedUserId,
-              'itemName': item.itemName,
-              'saleQty': 1,
             }),
           );
 
+          print("-----------------");
           print(response.body);
 
           if (response.statusCode == 200) {
