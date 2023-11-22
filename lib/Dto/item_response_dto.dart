@@ -1,7 +1,7 @@
 class ItemResponseDto {
   final String itemName;
   final int itemPrice; // 타입을 int로 변경
-  final int itemId;
+  final String itemId;
   int quantity;
 
   ItemResponseDto({
