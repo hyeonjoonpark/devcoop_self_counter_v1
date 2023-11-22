@@ -39,7 +39,7 @@ AlertDialog paymentsPopUp(BuildContext context, int totalPrice) {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '$totalPrice원이 결제되었습니다',
+            '$totalPrice원 결제되었습니다',
             style: DevCoopTextStyle.light_40.copyWith(
               color: DevCoopColors.black,
             ),
