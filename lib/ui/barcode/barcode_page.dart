@@ -101,7 +101,7 @@ class _BarcodePageState extends State<BarcodePage> {
                   ),
                 ),
                 const SizedBox(
-                  width: 100,
+                  width: 360,
                 ),
                 Expanded(
                   child: Column(
@@ -239,11 +239,25 @@ class _BarcodePageState extends State<BarcodePage> {
             const SizedBox(
               height: 20,
             ),
-            mainTextButton(
-              text: '확인',
-              onTap: () {
-                _login(context);
-              },
+            Row(
+              children: [
+                Container(margin: EdgeInsets.only(left: 210)),
+                mainTextButton(
+                  text: '확인',
+                  onTap: () {
+                    _login(context);
+                  },
+                ),
+                const SizedBox(
+                  width: 210,
+                ),
+                mainTextButton(
+                  text: '처음으로',
+                  onTap: () {
+                    Get.toNamed('/home');
+                  },
+                ),
+              ],
             ),
           ],
         ),

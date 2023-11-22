@@ -233,8 +233,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
           print(response.body);
 
           if (response.statusCode == 200) {
+            print("응답상태 : ${response.statusCode}");
             print('${item.itemName}에 대한 영수증이 성공적으로 저장되었습니다.');
           } else {
+            print("응답상태 : ${response.statusCode}");
             print('${item.itemName}에 대한 영수증 저장 실패');
           }
         }
