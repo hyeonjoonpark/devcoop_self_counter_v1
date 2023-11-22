@@ -50,58 +50,46 @@ class _BarcodePageState extends State<BarcodePage> {
                     children: [
                       for (int i = 0; i < 4; i++) ...[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             for (int j = 0; j < 3; j++) ...[
-                              if (i != 3 || (j != 0 && j != 2)) ...[
-                                GestureDetector(
-                                  onTap: () {
-                                    int number = (j + 1) + (i * 3);
-                                    onNumberButtonPressed(
-                                        number == 11 ? 0 : number % 10);
-                                  },
-                                  child: Container(
-                                    width: 95,
-                                    height: 95,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: const Color(0xFFD9D9D9),
-                                    ),
-                                    child: Text(
-                                      '${i != 3 ? (j + 1) + (i * 3) : 0}',
-                                      style: const TextStyle(
-                                        fontSize: 40,
-                                        color: DevCoopColors.black,
-                                      ),
+                              GestureDetector(
+                                onTap: () {
+                                  int _number = j + 1 + i * 3;
+                                  onNumberButtonPressed(
+                                      _number == 11 ? 0 : _number);
+                                },
+                                child: Container(
+                                  width: 95,
+                                  height: 95,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: (j + 1 + i * 3 == 10 ||
+                                        j + 1 + i * 3 == 12)
+                                        ? DevCoopColors.primary
+                                        : const Color(0xFFD9D9D9),
+                                  ),
+                                  child: Text(
+                                    '${j + 1 + i * 3 == 10 ? 'Clear' : (j + 1 + i * 3 == 11 ? '0' : (j + 1 + i * 3 == 12 ? 'Del' : j + 1 + i * 3))}',
+                                    style: const TextStyle(
+                                      fontSize: 24,
+                                      color: DevCoopColors.black,
                                     ),
                                   ),
                                 ),
-                              ] else ...[
-                                const SizedBox(
-                                  width: 95,
-                                  height: 95,
-                                ),
-                              ],
-                              if (j < 2) ...[
-                                const SizedBox(
-                                  width: 47,
-                                ),
-                              ],
+                              ),
                             ],
                           ],
                         ),
                         if (i < 3) ...[
                           const SizedBox(
-                            height: 52,
+                            height: 10,
                           ),
                         ],
                       ],
                     ],
                   ),
-                ),
-                const SizedBox(
-                  width: 360,
                 ),
                 Expanded(
                   child: Column(
@@ -140,9 +128,9 @@ class _BarcodePageState extends State<BarcodePage> {
                                 child: TextField(
                                   controller: _codeNumberController,
                                   focusNode:
-                                      _activeController == _codeNumberController
-                                          ? _pinFocus
-                                          : null,
+                                  _activeController == _codeNumberController
+                                      ? _pinFocus
+                                      : null,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                       RegExp(
@@ -201,7 +189,8 @@ class _BarcodePageState extends State<BarcodePage> {
                                 ),
                                 child: TextField(
                                   controller: _pinController,
-                                  focusNode: _activeController == _pinController
+                                  focusNode:
+                                  _activeController == _pinController
                                       ? _pinFocus
                                       : null,
                                   onChanged: (value) {
@@ -218,8 +207,8 @@ class _BarcodePageState extends State<BarcodePage> {
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
                                     hintText: '자신의 핀번호를 입력해주세요',
-                                    hintStyle:
-                                        DevCoopTextStyle.medium_30.copyWith(
+                                    hintStyle: DevCoopTextStyle.medium_30
+                                        .copyWith(
                                       fontSize: 15,
                                     ),
                                     border: InputBorder.none,
@@ -266,16 +255,24 @@ class _BarcodePageState extends State<BarcodePage> {
   }
 
   void onNumberButtonPressed(int number) {
-    String currentText = _activeController?.text ?? '';
+    if (_activeController != null) {
+      String currentText = _activeController!.text;
 
-    // 0을 눌렀을 때는 0이 입력되고, 이전에 입력한 숫자 뒤에 0을 추가하도록 수정
-    if (number == 0) {
-      _activeController?.text = '$currentText$number';
-    } else {
-      String newText = currentText + number.toString();
-      _activeController?.text = newText;
+      if (number == 10) {
+        _activeController!.clear(); // Clear focus and text
+      } else if (number == 12) {
+        // Del button
+        if (currentText.isNotEmpty) {
+          String newText = currentText.substring(0, currentText.length - 1);
+          _activeController!.text = newText;
+        }
+      } else {
+        String newText = currentText + (number == 11 ? '0' : number.toString());
+        _activeController!.text = newText;
+      }
     }
   }
+
 
   void _setActiveController(TextEditingController controller) {
     setState(() {
@@ -305,7 +302,7 @@ class _BarcodePageState extends State<BarcodePage> {
         print("로그인 성공");
 
         Map<String, dynamic> responseBody =
-            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
         String codeNumber = responseBody['data']['user']['codeNumber'];
         String pin = responseBody['data']['user']['pin'];
