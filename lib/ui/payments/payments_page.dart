@@ -256,7 +256,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
+    FocusScope.of(context).requestFocus(barcodeFocusNode);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
