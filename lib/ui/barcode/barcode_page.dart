@@ -19,11 +19,12 @@ class BarcodePage extends StatefulWidget {
 class _BarcodePageState extends State<BarcodePage> {
   final TextEditingController _codeNumberController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
-  final FocusNode _pinFocus = FocusNode();
+  final FocusNode _barcodeFocus = FocusNode();
   TextEditingController? _activeController;
 
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).requestFocus(_barcodeFocus);
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(
@@ -127,10 +128,7 @@ class _BarcodePageState extends State<BarcodePage> {
                                 ),
                                 child: TextField(
                                   controller: _codeNumberController,
-                                  focusNode:
-                                  _activeController == _codeNumberController
-                                      ? _pinFocus
-                                      : null,
+                                  focusNode: _barcodeFocus,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                       RegExp(
@@ -189,13 +187,6 @@ class _BarcodePageState extends State<BarcodePage> {
                                 ),
                                 child: TextField(
                                   controller: _pinController,
-                                  focusNode:
-                                  _activeController == _pinController
-                                      ? _pinFocus
-                                      : null,
-                                  onChanged: (value) {
-                                    // Handle pin input changes if needed
-                                  },
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                       RegExp(
