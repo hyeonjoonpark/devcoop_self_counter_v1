@@ -67,7 +67,7 @@ class _BarcodePageState extends State<BarcodePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: (j + 1 + i * 3 == 10 ||
-                                        j + 1 + i * 3 == 12)
+                                            j + 1 + i * 3 == 12)
                                         ? DevCoopColors.primary
                                         : const Color(0xFFD9D9D9),
                                   ),
@@ -198,13 +198,14 @@ class _BarcodePageState extends State<BarcodePage> {
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
                                     hintText: '자신의 핀번호를 입력해주세요',
-                                    hintStyle: DevCoopTextStyle.medium_30
-                                        .copyWith(
+                                    hintStyle:
+                                        DevCoopTextStyle.medium_30.copyWith(
                                       fontSize: 15,
                                     ),
                                     border: InputBorder.none,
                                   ),
                                   maxLines: 1,
+                                  obscureText: true,
                                 ),
                               ),
                             ),
@@ -264,7 +265,6 @@ class _BarcodePageState extends State<BarcodePage> {
     }
   }
 
-
   void _setActiveController(TextEditingController controller) {
     setState(() {
       _activeController = controller;
@@ -293,7 +293,7 @@ class _BarcodePageState extends State<BarcodePage> {
         print("로그인 성공");
 
         Map<String, dynamic> responseBody =
-        jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
         String codeNumber = responseBody['data']['user']['codeNumber'];
         String pin = responseBody['data']['user']['pin'];
