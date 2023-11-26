@@ -177,7 +177,7 @@ class _BarcodePageState extends State<BarcodePage> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                   vertical: 34,
-                                  horizontal: 12,
+                                  horizontal: 24,
                                 ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFECECEC),
@@ -218,24 +218,24 @@ class _BarcodePageState extends State<BarcodePage> {
               ],
             ),
             const SizedBox(
-              height: 20,
+              height: 128,
             ),
             Row(
               children: [
-                Container(margin: EdgeInsets.only(left: 210)),
-                mainTextButton(
-                  text: '확인',
-                  onTap: () {
-                    _login(context);
-                  },
-                ),
-                const SizedBox(
-                  width: 210,
-                ),
+                Container(margin: EdgeInsets.only(left: 240)),
                 mainTextButton(
                   text: '처음으로',
                   onTap: () {
                     Get.toNamed('/home');
+                  },
+                ),
+                const SizedBox(
+                  width: 560,
+                ),
+                mainTextButton(
+                  text: '확인',
+                  onTap: () {
+                    _login(context);
                   },
                 ),
               ],
