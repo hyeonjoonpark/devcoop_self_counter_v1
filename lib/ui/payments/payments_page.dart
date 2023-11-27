@@ -108,7 +108,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
   }
 
   void showPaymentsPopup(BuildContext context, int totalPrice) {
-    deductPoints();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -133,99 +132,152 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
   }
 
-  Future<void> savePayLog(int totalPrice) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  // Future<void> savePayLog(int totalPrice) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? savedCodeNumber = prefs.getString('codeNumber');
-    String? savedStudentName = prefs.getString('studentName');
+  //   String? savedCodeNumber = prefs.getString('codeNumber');
+  //   String? savedStudentName = prefs.getString('studentName');
 
-    if (savedCodeNumber != null && savedStudentName != null) {
-      print("Getting UserInfo");
-      print('Data loaded from SharedPreferences');
-    }
+  //   if (savedCodeNumber != null && savedStudentName != null) {
+  //     print("Getting UserInfo");
+  //     print('Data loaded from SharedPreferences');
+  //   }
 
-    try {
-      const apiUrl = 'http://localhost:8080/kiosk/save/paylog';
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<dynamic, dynamic>{
-          "codeNumber": savedCodeNumber,
-          "type": 0,
-          "innerPoint": totalPrice,
-          "chargerId": "kiosk",
-          "verifyKey": "test",
-          "studentName": savedStudentName,
-        }),
-      );
+  //   try {
+  //     const apiUrl = 'http://localhost:8080/kiosk/save/paylog';
+  //     final response = await http.post(
+  //       Uri.parse(apiUrl),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //       },
+  //       body: jsonEncode(<dynamic, dynamic>{
+  //         "codeNumber": savedCodeNumber,
+  //         "type": 0,
+  //         "innerPoint": totalPrice,
+  //         "chargerId": "kiosk",
+  //         "verifyKey": "test",
+  //         "studentName": savedStudentName,
+  //       }),
+  //     );
 
-      print(response.body);
+  //     print(response.body);
 
-      if (response.statusCode == 200) {
-        // 요청이 성공적으로 처리되었을 때의 동작 추가
-        print('Points deducted successfully');
-      } else {
-        // 요청이 실패했을 때의 동작 추가
-        print('Failed to deduct points');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       // 요청이 성공적으로 처리되었을 때의 동작 추가
+  //       print('Points deducted successfully');
+  //     } else {
+  //       // 요청이 실패했을 때의 동작 추가
+  //       print('Failed to deduct points');
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
-  Future<void> deductPoints() async {
-    try {
-      const apiUrl = 'http://localhost:8080/kiosk';
+  // Future<void> deductPoints() async {
+  //   try {
+  //     const apiUrl = 'http://localhost:8080/kiosk';
 
-      Map<String, dynamic> requestBody = {
-        'codeNumber': savedCodeNumber,
-        'totalPrice': totalPrice
-      };
-      String jsonData = json.encode(requestBody);
+  //     Map<String, dynamic> requestBody = {
+  //       'codeNumber': savedCodeNumber,
+  //       'totalPrice': totalPrice
+  //     };
+  //     String jsonData = json.encode(requestBody);
 
-      print(jsonData);
+  //     print(jsonData);
 
-      final response = await http.put(
-        Uri.parse('$apiUrl/pay'),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonData,
-      );
+  //     final response = await http.put(
+  //       Uri.parse('$apiUrl/pay'),
+  //       headers: {
+  //         'Content-Type': 'application/json; charset=UTF-8',
+  //       },
+  //       body: jsonData,
+  //     );
 
-      print(response);
+  //     print(response);
 
-      if (response.statusCode == 200) {
-        // 요청이 성공적으로 처리되었을 때의 동작 추가
-        print('Points deducted successfully');
-      } else {
-        // 요청이 실패했을 때의 동작 추가
-        print('Failed to deduct points');
-      }
-    } catch (e) {
-      // 예외 처리
-      print('Error occurred while deducting points: $e');
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       // 요청이 성공적으로 처리되었을 때의 동작 추가
+  //       print('Points deducted successfully');
+  //     } else {
+  //       // 요청이 실패했을 때의 동작 추가
+  //       print('Failed to deduct points');
+  //     }
+  //   } catch (e) {
+  //     // 예외 처리
+  //     print('Error occurred while deducting points: $e');
+  //   }
+  // }
 
-  Future<void> sendRequestsForItems(List<ItemResponseDto> items) async {
+  // Future<void> sendRequestsForItems(List<ItemResponseDto> items) async {
+  //   for (ItemResponseDto item in items) {
+  //     try {
+  //       if (savedUserId != null) {
+  //         // Check if savedUserId is not null
+  //         const apiUrl = 'http://localhost:8080/kiosk/save/receipt';
+  //         final response = await http.post(
+  //           Uri.parse(apiUrl),
+  //           headers: <String, String>{
+  //             'Content-Type': 'application/json; charset=UTF-8',
+  //           },
+  //           body: jsonEncode(<String, dynamic>{
+  //             'itemName': item.itemName,
+  //             'saleQty': item.quantity,
+  //             'dcmSaleAmt': item.itemPrice,
+  //             'userId': savedUserId,
+  //           }),
+  //         );
+
+  //         print("-----------------");
+  //         print(response.body);
+
+  //         if (response.statusCode == 200) {
+  //           print("응답상태 : ${response.statusCode}");
+  //           print('${item.itemName}에 대한 영수증이 성공적으로 저장되었습니다.');
+  //         } else {
+  //           print("응답상태 : ${response.statusCode}");
+  //           print('${item.itemName}에 대한 영수증 저장 실패');
+  //         }
+  //       }
+  //     } catch (e) {
+  //       print('영수증을 저장하는 동안 오류가 발생했습니다: $e');
+  //     }
+  //   }
+  // }
+
+  Future<void> payments(List<ItemResponseDto> items) async {
     for (ItemResponseDto item in items) {
       try {
         if (savedUserId != null) {
           // Check if savedUserId is not null
-          const apiUrl = 'http://localhost:8080/kiosk/save/receipt';
+          const apiUrl = 'http://localhost:8080/kiosk/executePayments';
           final response = await http.post(
             Uri.parse(apiUrl),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
             },
+            // body: jsonEncode(<String, dynamic>{
+            //   'itemName': item.itemName,
+            //   'saleQty': item.quantity,
+            //   'dcmSaleAmt': item.itemPrice,
+            //   'userId': savedUserId,
+            // }),
             body: jsonEncode(<String, dynamic>{
-              'itemName': item.itemName,
-              'saleQty': item.quantity,
-              'dcmSaleAmt': item.itemPrice,
-              'userId': savedUserId,
+              "userPointRequestDto": {
+                "codeNumber": savedCodeNumber,
+                "totalPrice": totalPrice
+              },
+              "payLogRequestDto": {
+                "codeNumber": savedCodeNumber,
+                "innerPoint": totalPrice,
+                "studentName": savedStudentName,
+              },
+              "kioskDto": {
+                "dcmSaleAmt": item.itemPrice,
+                "userId": savedCodeNumber,
+                "itemName": item.itemName,
+                "saleQty": item.quantity
+              }
             }),
           );
 
@@ -386,8 +438,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                     mainTextButton(
                       text: '계산하기',
                       onTap: () {
-                        sendRequestsForItems(itemResponses);
-                        savePayLog(totalPrice);
+                        payments(itemResponses);
                         showPaymentsPopup(context, totalPrice);
                       },
                     ),
