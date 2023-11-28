@@ -24,7 +24,11 @@ class _BarcodePageState extends State<BarcodePage> {
 
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(_barcodeFocus);
+    // 변경: 바코드 입력 창이 포커싱되지 않도록 수정
+    if (_activeController != _codeNumberController) {
+      FocusScope.of(context).requestFocus(_barcodeFocus);
+    }
+
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(
@@ -295,11 +299,11 @@ class _BarcodePageState extends State<BarcodePage> {
         Map<String, dynamic> responseBody =
             jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
-        String codeNumber = responseBody['data']['user']['codeNumber'];
-        String pin = responseBody['data']['user']['pin'];
-        int point = responseBody['data']['user']['point'];
-        String studentName = responseBody['data']['user']['studentName'];
-        int userId = responseBody['data']['user']['studentNumber'];
+        String codeNumber = responseBody['user']['codeNumber'];
+        String pin = responseBody['user']['pin'];
+        int point = responseBody['user']['point'];
+        String studentName = responseBody['user']['studentName'];
+        int userId = responseBody['user']['studentNumber'];
 
         saveUserData(codeNumber, pin, point, studentName, userId);
         print("저장성공");
