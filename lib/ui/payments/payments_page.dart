@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -437,6 +438,9 @@ class _PaymentsPageState extends State<PaymentsPage> {
                     ),
                     Row(
                       children: [
+                        const SizedBox(
+                          width: 60,
+                        ),
                         mainTextButton(
                           text: '전체삭제',
                           onTap: () {
@@ -447,13 +451,23 @@ class _PaymentsPageState extends State<PaymentsPage> {
                           },
                         ),
                         const SizedBox(
-                          width: 600,
+                          width: 60,
                         ),
                         mainTextButton(
                           text: '계산하기',
                           onTap: () {
                             payments(itemResponses);
                             showPaymentsPopup(context, totalPrice);
+                          },
+                        ),
+                        const SizedBox(
+                          width: 60,
+                        ),
+                        mainTextButton(
+                          text: '처음으로',
+                          onTap: () {
+                            removeUserData();
+                            Get.toNamed("/");
                           },
                         ),
                       ],
