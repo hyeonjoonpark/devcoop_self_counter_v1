@@ -435,13 +435,29 @@ class _PaymentsPageState extends State<PaymentsPage> {
                         rightText: totalPrice.toString(), // 수정: 값을 String으로 변환
                       ),
                     ),
-                    mainTextButton(
-                      text: '계산하기',
-                      onTap: () {
-                        payments(itemResponses);
-                        showPaymentsPopup(context, totalPrice);
-                      },
-                    ),
+                    Row(
+                      children: [
+                        mainTextButton(
+                          text: '전체삭제',
+                          onTap: () {
+                            setState(() {
+                              itemResponses.clear();
+                              totalPrice = 0;
+                            });
+                          },
+                        ),
+                        const SizedBox(
+                          width: 600,
+                        ),
+                        mainTextButton(
+                          text: '계산하기',
+                          onTap: () {
+                            payments(itemResponses);
+                            showPaymentsPopup(context, totalPrice);
+                          },
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
