@@ -225,16 +225,13 @@ class _BarcodePageState extends State<BarcodePage> {
               height: 128,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(margin: EdgeInsets.only(left: 240)),
                 mainTextButton(
                   text: '처음으로',
                   onTap: () {
                     Get.toNamed('/home');
                   },
-                ),
-                const SizedBox(
-                  width: 560,
                 ),
                 mainTextButton(
                   text: '확인',
@@ -243,7 +240,7 @@ class _BarcodePageState extends State<BarcodePage> {
                   },
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),
@@ -299,13 +296,12 @@ class _BarcodePageState extends State<BarcodePage> {
         Map<String, dynamic> responseBody =
             jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
-        String codeNumber = responseBody['user']['codeNumber'];
-        String pin = responseBody['user']['pin'];
-        int point = responseBody['user']['point'];
-        String studentName = responseBody['user']['studentName'];
-        int userId = responseBody['user']['studentNumber'];
+        String token = responseBody['token'];
+        int studentNumber = responseBody['studentNumber'];
+        String studentName = responseBody['studentName'];
+        int point = responseBody['point'];
 
-        saveUserData(codeNumber, pin, point, studentName, userId);
+        saveUserData(token, codeNumber, studentNumber, pin, point, studentName);
         print("저장성공");
 
         Get.toNamed('/check');

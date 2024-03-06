@@ -93,7 +93,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
           } else {
             // 새로운 아이템 추가
             final item = ItemResponseDto(
-              itemName: itemName ?? '',
+              itemName: itemName,
               itemPrice: int.parse(itemPrice),
               itemId: barcode,
               quantity: 1, // 새로운 아이템의 기본 갯수는 1로 설정
@@ -308,7 +308,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     FocusScope.of(context).requestFocus(barcodeFocusNode);
     return Scaffold(
       body: GestureDetector(
@@ -390,11 +389,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
                                   i < itemResponses.length;
                                   i++) ...[
                                 paymentsItem(
-                                  left: itemResponses[i].itemName ?? '',
+                                  left: itemResponses[i].itemName,
                                   center: '${itemResponses[i].quantity}',
                                   rightText:
-                                      itemResponses[i].itemPrice?.toString() ??
-                                          '0',
+                                      itemResponses[i].itemPrice.toString(),
                                   totalText: false,
                                 ),
                                 if (i < itemResponses.length - 1) ...[
