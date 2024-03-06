@@ -6,15 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class BarcodePage extends StatefulWidget {
-  const BarcodePage({Key? key}) : super(key: key);
+class PinPage extends StatefulWidget {
+  final String codeNumber;
+  PinPage({Key? key, required this.codeNumber}) : super(key: key);
 
   @override
-  _BarcodePageState createState() => _BarcodePageState();
+  _PinPageState createState() => _PinPageState();
 }
 
-class _BarcodePageState extends State<BarcodePage> {
+class _PinPageState extends State<PinPage> {
+  get FilteringTextInputFormatter => null;
+
   final TextEditingController _codeNumberController = TextEditingController();
+  final TextEditingController _pinController = TextEditingController();
   final FocusNode _barcodeFocus = FocusNode();
   TextEditingController? _activeController;
 
@@ -58,9 +62,8 @@ class _BarcodePageState extends State<BarcodePage> {
                                 onTap: () {
                                   int _number = j + 1 + i * 3;
                                   onNumberButtonPressed(
-                                    _number == 11 ? 0 : _number,
-                                    _codeNumberController,
-                                  );
+                                      _number == 11 ? 0 : _number,
+                                      _pinController);
                                 },
                                 child: Container(
                                   width: 95,
@@ -167,12 +170,7 @@ class _BarcodePageState extends State<BarcodePage> {
                           ),
                           mainTextButton(
                             text: '다음으로',
-                            onTap: () {
-                              Get.toNamed(
-                                "/pin",
-                                arguments: _codeNumberController.text,
-                              );
-                            },
+                            onTap: () {},
                           ),
                         ],
                       )

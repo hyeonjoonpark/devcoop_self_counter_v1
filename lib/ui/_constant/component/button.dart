@@ -10,8 +10,8 @@ GestureDetector mainTextButton({
     onTap: onTap,
     child: Container(
       padding: const EdgeInsets.symmetric(
-        vertical: 22,
-        horizontal: 122,
+        vertical: 18,
+        horizontal: 70,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
