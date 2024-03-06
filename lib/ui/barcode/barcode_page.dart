@@ -296,13 +296,12 @@ class _BarcodePageState extends State<BarcodePage> {
         Map<String, dynamic> responseBody =
             jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
-        String codeNumber = responseBody['user']['codeNumber'];
-        String pin = responseBody['user']['pin'];
-        int point = responseBody['user']['point'];
-        String studentName = responseBody['user']['studentName'];
-        int userId = responseBody['user']['studentNumber'];
+        String token = responseBody['token'];
+        int studentNumber = responseBody['studentNumber'];
+        String studentName = responseBody['studentName'];
+        int point = responseBody['point'];
 
-        saveUserData(codeNumber, pin, point, studentName, userId);
+        saveUserData(token, codeNumber, studentNumber, pin, point, studentName);
         print("저장성공");
 
         Get.toNamed('/check');
