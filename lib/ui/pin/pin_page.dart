@@ -39,7 +39,7 @@ class _PinPageState extends State<PinPage> {
         child: Column(
           children: [
             Text(
-              "학생증의 바코드를\n리더기로 스캔해주세요.",
+              "자신의 핀번호를 입력해주세요",
               style: DevCoopTextStyle.bold_40.copyWith(
                 color: DevCoopColors.black,
               ),
@@ -106,7 +106,7 @@ class _PinPageState extends State<PinPage> {
                           SizedBox(
                             width: 160,
                             child: Text(
-                              '학생증 번호',
+                              '핀 번호',
                               style: DevCoopTextStyle.medium_30.copyWith(
                                 color: DevCoopColors.black,
                               ),
@@ -144,7 +144,7 @@ class _PinPageState extends State<PinPage> {
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
-                                    hintText: '학생증을 리더기에 스캔해주세요',
+                                    hintText: '핀번호를 입력해주세요',
                                     hintStyle: DevCoopTextStyle.medium_30
                                         .copyWith(fontSize: 15),
                                     border: InputBorder.none,

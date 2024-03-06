@@ -14,7 +14,8 @@ class BarcodePage extends StatefulWidget {
 }
 
 class _BarcodePageState extends State<BarcodePage> {
-  final TextEditingController _codeNumberController = TextEditingController();
+  final TextEditingController _codeNumberController =
+      TextEditingController(text: '');
   final FocusNode _barcodeFocus = FocusNode();
   TextEditingController? _activeController;
 
@@ -132,11 +133,8 @@ class _BarcodePageState extends State<BarcodePage> {
                                   controller: _codeNumberController,
                                   focusNode: _barcodeFocus,
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp(
-                                        '[0-9]',
-                                      ),
-                                    ),
+                                    FilteringTextInputFormatter
+                                        .singleLineFormatter,
                                   ],
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
