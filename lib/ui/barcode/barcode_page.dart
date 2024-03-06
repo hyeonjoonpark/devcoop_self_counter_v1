@@ -17,15 +17,13 @@ class _BarcodePageState extends State<BarcodePage> {
   final TextEditingController _codeNumberController =
       TextEditingController(text: '');
   final FocusNode _barcodeFocus = FocusNode();
-  TextEditingController? _activeController;
+
+  void _setActiveController(TextEditingController controller) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    // 변경: 바코드 입력 창이 포커싱되지 않도록 수정
-    if (_activeController != _codeNumberController) {
-      FocusScope.of(context).requestFocus(_barcodeFocus);
-    }
-
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(
@@ -132,10 +130,6 @@ class _BarcodePageState extends State<BarcodePage> {
                                 child: TextField(
                                   controller: _codeNumberController,
                                   focusNode: _barcodeFocus,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter
-                                        .singleLineFormatter,
-                                  ],
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
@@ -183,11 +177,5 @@ class _BarcodePageState extends State<BarcodePage> {
         ),
       ),
     );
-  }
-
-  void _setActiveController(TextEditingController controller) {
-    setState(() {
-      _activeController = controller;
-    });
   }
 }

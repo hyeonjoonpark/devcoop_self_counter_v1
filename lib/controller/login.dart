@@ -5,47 +5,44 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> _login(
-    BuildContext context,
-    TextEditingController _codeNumberController,
-    TextEditingController _pinController) async {
-  String codeNumber = _codeNumberController.text;
-  String pin = _pinController.text;
+class LoginController {
+  Future<void> login(
+      BuildContext context, String codeNumber, String pin) async {
+    Map<String, String> requestBody = {'codeNumber': codeNumber, 'pin': pin};
 
-  Map<String, String> requestBody = {'codeNumber': codeNumber, 'pin': pin};
+    String jsonData = json.encode(requestBody);
 
-  String jsonData = json.encode(requestBody);
+    String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
 
-  String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: jsonData,
+      );
 
-  try {
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-      body: jsonData,
-    );
+      print(response);
 
-    print(response);
+      if (response.statusCode == 200) {
+        print("로그인 성공");
 
-    if (response.statusCode == 200) {
-      print("로그인 성공");
+        Map<String, dynamic> responseBody =
+            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
-      Map<String, dynamic> responseBody =
-          jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+        String token = responseBody['token'];
+        int studentNumber = responseBody['studentNumber'];
+        String studentName = responseBody['studentName'];
+        int point = responseBody['point'];
 
-      String token = responseBody['token'];
-      int studentNumber = responseBody['studentNumber'];
-      String studentName = responseBody['studentName'];
-      int point = responseBody['point'];
+        saveUserData(token, codeNumber, studentNumber, pin, point, studentName);
+        print("저장성공");
 
-      saveUserData(token, codeNumber, studentNumber, pin, point, studentName);
-      print("저장성공");
-
-      Get.toNamed('/check');
+        Get.toNamed('/check');
+      }
+    } catch (e) {
+      print(e);
     }
-  } catch (e) {
-    print(e);
   }
 }

@@ -24,8 +24,6 @@ List<GetPage> AppRouter = [
   ),
   GetPage(
     name: "/pin",
-    page: () => PinPage(
-      codeNumber: Get.arguments as String,
-    ),
+    page: () => PinPage(codeNumber: Get.arguments as String),
   ),
 ];
