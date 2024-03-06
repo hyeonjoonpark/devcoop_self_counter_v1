@@ -4,10 +4,11 @@ import 'package:counter/ui/_constant/theme/devcoop_text_style.dart';
 import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../controller/login.dart';
 import 'package:get/get.dart';
 
 class PinPage extends StatefulWidget {
-  final String codeNumber;
+  final codeNumber;
   PinPage({Key? key, required this.codeNumber}) : super(key: key);
 
   @override
@@ -132,13 +133,6 @@ class _PinPageState extends State<PinPage> {
                                 child: TextField(
                                   controller: _codeNumberController,
                                   focusNode: _barcodeFocus,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                      RegExp(
-                                        '[0-9]',
-                                      ),
-                                    ),
-                                  ],
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
@@ -168,7 +162,11 @@ class _PinPageState extends State<PinPage> {
                           ),
                           mainTextButton(
                             text: '다음으로',
-                            onTap: () {},
+                            onTap: () {
+                              // TODO: fix this
+                              LoginController().login(
+                                  context, codeNumber, _pinController.text);
+                            },
                           ),
                         ],
                       )

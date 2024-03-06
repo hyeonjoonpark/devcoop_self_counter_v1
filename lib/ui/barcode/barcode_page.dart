@@ -130,10 +130,6 @@ class _BarcodePageState extends State<BarcodePage> {
                                 child: TextField(
                                   controller: _codeNumberController,
                                   focusNode: _barcodeFocus,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter
-                                        .singleLineFormatter,
-                                  ],
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
