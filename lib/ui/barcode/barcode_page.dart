@@ -15,7 +15,6 @@ class BarcodePage extends StatefulWidget {
 
 class _BarcodePageState extends State<BarcodePage> {
   final TextEditingController _codeNumberController = TextEditingController();
-  final TextEditingController _pinController = TextEditingController();
   final FocusNode _barcodeFocus = FocusNode();
   TextEditingController? _activeController;
 
