@@ -20,15 +20,13 @@ class _PinPageState extends State<PinPage> {
   final TextEditingController _codeNumberController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
   final FocusNode _barcodeFocus = FocusNode();
-  TextEditingController? _activeController;
+
+  void _setActiveController(TextEditingController controller) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    // 변경: 바코드 입력 창이 포커싱되지 않도록 수정
-    if (_activeController != _codeNumberController) {
-      FocusScope.of(context).requestFocus(_barcodeFocus);
-    }
-
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.symmetric(
@@ -183,11 +181,5 @@ class _PinPageState extends State<PinPage> {
         ),
       ),
     );
-  }
-
-  void _setActiveController(TextEditingController controller) {
-    setState(() {
-      _activeController = controller;
-    });
   }
 }

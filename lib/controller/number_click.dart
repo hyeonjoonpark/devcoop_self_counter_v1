@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 void onNumberButtonPressed(
     int number, TextEditingController _activeController) {
-  if (_activeController != null) {
+  if (_activeController.text != '') {
     String currentText = _activeController.text;
 
     if (number == 10) {
