@@ -1,4 +1,3 @@
-import 'package:counter/ui/payments/payments_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,7 +43,7 @@ class _CheckStudentState extends State<CheckStudent> {
       savedStudentName = prefs.getString('studentName') ?? '';
       savedCodeNumber = prefs.getString('codeNumber') ?? '';
 
-      if (savedCodeNumber != null && savedPin != null) {
+      if (savedCodeNumber != "" && savedPin != null) {
         print("Getting UserInfo");
         print('Data loaded from SharedPreferences');
         setState(() {}); // Trigger a rebuild to update the UI

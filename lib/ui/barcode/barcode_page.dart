@@ -225,16 +225,13 @@ class _BarcodePageState extends State<BarcodePage> {
               height: 128,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(margin: EdgeInsets.only(left: 240)),
                 mainTextButton(
                   text: '처음으로',
                   onTap: () {
                     Get.toNamed('/home');
                   },
-                ),
-                const SizedBox(
-                  width: 560,
                 ),
                 mainTextButton(
                   text: '확인',
@@ -243,7 +240,7 @@ class _BarcodePageState extends State<BarcodePage> {
                   },
                 ),
               ],
-            ),
+            )
           ],
         ),
       ),
