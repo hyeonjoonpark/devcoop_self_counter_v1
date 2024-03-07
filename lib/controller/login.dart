@@ -8,11 +8,15 @@ import 'package:http/http.dart' as http;
 class LoginController {
   Future<void> login(
       BuildContext context, String codeNumber, String pin) async {
+    print(codeNumber);
+    print(pin);
     Map<String, String> requestBody = {'codeNumber': codeNumber, 'pin': pin};
 
     String jsonData = json.encode(requestBody);
+    print(jsonData);
 
     String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
+    print(apiUrl);
 
     try {
       final response = await http.post(
@@ -36,7 +40,7 @@ class LoginController {
         String studentName = responseBody['studentName'];
         int point = responseBody['point'];
 
-        saveUserData(token, codeNumber, studentNumber, pin, point, studentName);
+        saveUserData(token, codeNumber, studentNumber, point, studentName);
         print("저장성공");
 
         Get.toNamed('/check');

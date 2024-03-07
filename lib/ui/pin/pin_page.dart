@@ -8,17 +8,14 @@ import '../../controller/login.dart';
 import 'package:get/get.dart';
 
 class PinPage extends StatefulWidget {
-  final codeNumber;
-  PinPage({Key? key, required this.codeNumber}) : super(key: key);
+  final String codeNumber;
+  const PinPage({Key? key, required this.codeNumber}) : super(key: key);
 
   @override
   _PinPageState createState() => _PinPageState();
 }
 
 class _PinPageState extends State<PinPage> {
-  get FilteringTextInputFormatter => null;
-
-  final TextEditingController _codeNumberController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
   final FocusNode _barcodeFocus = FocusNode();
 
@@ -117,7 +114,7 @@ class _PinPageState extends State<PinPage> {
                           Expanded(
                             child: GestureDetector(
                               onTap: () {
-                                _setActiveController(_codeNumberController);
+                                _setActiveController(_pinController);
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -131,7 +128,7 @@ class _PinPageState extends State<PinPage> {
                                   ),
                                 ),
                                 child: TextField(
-                                  controller: _codeNumberController,
+                                  controller: _pinController,
                                   focusNode: _barcodeFocus,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
@@ -161,11 +158,19 @@ class _PinPageState extends State<PinPage> {
                             },
                           ),
                           mainTextButton(
-                            text: '다음으로',
+                            text: '확인',
                             onTap: () {
                               // TODO: fix this
-                              LoginController().login(
-                                  context, codeNumber, _pinController.text);
+                              LoginController loginController =
+                                  LoginController();
+
+                              loginController.login(
+                                context,
+                                widget.codeNumber,
+                                _pinController.text,
+                              );
+
+                              Get.toNamed('/check');
                             },
                           ),
                         ],

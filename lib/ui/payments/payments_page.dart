@@ -435,10 +435,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
                       ),
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SizedBox(
-                          width: 60,
-                        ),
                         mainTextButton(
                           text: '전체삭제',
                           onTap: () {
@@ -448,24 +446,18 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             });
                           },
                         ),
-                        const SizedBox(
-                          width: 60,
+                        mainTextButton(
+                          text: '처음으로',
+                          onTap: () {
+                            removeUserData();
+                            Get.toNamed("/");
+                          },
                         ),
                         mainTextButton(
                           text: '계산하기',
                           onTap: () {
                             payments(itemResponses);
                             showPaymentsPopup(context, totalPrice);
-                          },
-                        ),
-                        const SizedBox(
-                          width: 60,
-                        ),
-                        mainTextButton(
-                          text: '처음으로',
-                          onTap: () {
-                            removeUserData();
-                            Get.toNamed("/");
                           },
                         ),
                       ],

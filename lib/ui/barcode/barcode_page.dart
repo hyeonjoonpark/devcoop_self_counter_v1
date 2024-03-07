@@ -160,10 +160,8 @@ class _BarcodePageState extends State<BarcodePage> {
                           mainTextButton(
                             text: '다음으로',
                             onTap: () {
-                              Get.toNamed(
-                                "/pin",
-                                arguments: _codeNumberController.text,
-                              );
+                              Get.toNamed("/pin",
+                                  arguments: _codeNumberController.text);
                             },
                           ),
                         ],
