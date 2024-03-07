@@ -40,7 +40,10 @@ class LoginController {
         String studentName = responseBody['studentName'];
         int point = responseBody['point'];
 
-        saveUserData(token, codeNumber, studentNumber, point, studentName);
+        Object result =
+            saveUserData(token, codeNumber, studentNumber, point, studentName);
+
+        print(result);
         print("저장성공");
 
         Get.toNamed('/check');
