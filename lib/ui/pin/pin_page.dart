@@ -160,7 +160,6 @@ class _PinPageState extends State<PinPage> {
                           mainTextButton(
                             text: '확인',
                             onTap: () {
-                              // TODO: fix this
                               LoginController loginController =
                                   LoginController();
 
@@ -169,8 +168,6 @@ class _PinPageState extends State<PinPage> {
                                 widget.codeNumber,
                                 _pinController.text,
                               );
-
-                              Get.toNamed('/check');
                             },
                           ),
                         ],

@@ -27,18 +27,19 @@ class LoginController {
         body: jsonData,
       );
 
-      print(response);
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
 
       if (response.statusCode == 200) {
         print("로그인 성공");
 
         Map<String, dynamic> responseBody =
-            jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
+            json.decode(response.body) as Map<String, dynamic>;
 
-        String token = responseBody['token'];
-        int studentNumber = responseBody['studentNumber'];
-        String studentName = responseBody['studentName'];
-        int point = responseBody['point'];
+        String token = responseBody['token'] ?? '';
+        String studentName = responseBody['studentName'] ?? '';
+        int studentNumber = responseBody['studentNumber'] ?? 0;
+        int point = responseBody['point'] ?? 0;
 
         Object result =
             saveUserData(token, codeNumber, studentNumber, point, studentName);
@@ -49,7 +50,7 @@ class LoginController {
         Get.toNamed('/check');
       }
     } catch (e) {
-      print(e);
+      print("Exception caught: $e");
     }
   }
 }

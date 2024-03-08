@@ -1,4 +1,3 @@
-import 'package:counter/controller/number_click.dart';
 import 'package:counter/ui/_constant/component/button.dart';
 import 'package:counter/ui/_constant/theme/devcoop_text_style.dart';
 import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
@@ -45,54 +44,54 @@ class _BarcodePageState extends State<BarcodePage> {
             ),
             Row(
               children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < 4; i++) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            for (int j = 0; j < 3; j++) ...[
-                              GestureDetector(
-                                onTap: () {
-                                  int _number = j + 1 + i * 3;
-                                  onNumberButtonPressed(
-                                    _number == 11 ? 0 : _number,
-                                    _codeNumberController,
-                                  );
-                                },
-                                child: Container(
-                                  width: 95,
-                                  height: 95,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: (j + 1 + i * 3 == 10 ||
-                                            j + 1 + i * 3 == 12)
-                                        ? DevCoopColors.primary
-                                        : const Color(0xFFD9D9D9),
-                                  ),
-                                  child: Text(
-                                    '${j + 1 + i * 3 == 10 ? 'Clear' : (j + 1 + i * 3 == 11 ? '0' : (j + 1 + i * 3 == 12 ? 'Del' : j + 1 + i * 3))}',
-                                    style: const TextStyle(
-                                      fontSize: 24,
-                                      color: DevCoopColors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                        if (i < 3) ...[
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ],
-                    ],
-                  ),
-                ),
+                //     Expanded(
+                //       child: Column(
+                //         children: [
+                //           for (int i = 0; i < 4; i++) ...[
+                //             Row(
+                //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //               children: [
+                //                 for (int j = 0; j < 3; j++) ...[
+                //                   GestureDetector(
+                //                     onTap: () {
+                //                       int _number = j + 1 + i * 3;
+                //                       onNumberButtonPressed(
+                //                         _number == 11 ? 0 : _number,
+                //                         _codeNumberController,
+                //                       );
+                //                     },
+                //                     child: Container(
+                //                       width: 95,
+                //                       height: 95,
+                //                       alignment: Alignment.center,
+                //                       decoration: BoxDecoration(
+                //                         borderRadius: BorderRadius.circular(10),
+                //                         color: (j + 1 + i * 3 == 10 ||
+                //                                 j + 1 + i * 3 == 12)
+                //                             ? DevCoopColors.primary
+                //                             : const Color(0xFFD9D9D9),
+                //                       ),
+                //                       child: Text(
+                //                         '${j + 1 + i * 3 == 10 ? 'Clear' : (j + 1 + i * 3 == 11 ? '0' : (j + 1 + i * 3 == 12 ? 'Del' : j + 1 + i * 3))}',
+                //                         style: const TextStyle(
+                //                           fontSize: 24,
+                //                           color: DevCoopColors.black,
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ],
+                //               ],
+                //             ),
+                //             if (i < 3) ...[
+                //               const SizedBox(
+                //                 height: 10,
+                //               ),
+                //             ],
+                //           ],
+                //         ],
+                //       ),
+                //     ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +99,7 @@ class _BarcodePageState extends State<BarcodePage> {
                       Row(
                         children: [
                           SizedBox(
-                            width: 160,
+                            // width: 160,
                             child: Text(
                               '학생증 번호',
                               style: DevCoopTextStyle.medium_30.copyWith(
