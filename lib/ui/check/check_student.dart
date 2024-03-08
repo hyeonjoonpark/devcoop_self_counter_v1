@@ -18,8 +18,8 @@ class CheckStudent extends StatefulWidget {
 }
 
 class _CheckStudentState extends State<CheckStudent> {
-  late String savedStudentName = ''; // Initialize with a default value
-  late int savedPoint = 0; // Initialize with a default value
+  late String savedStudentName = '';
+  late int savedPoint = 0;
   late String savedCodeNumber = '';
 
   @override
@@ -31,6 +31,10 @@ class _CheckStudentState extends State<CheckStudent> {
     Future.delayed(const Duration(seconds: 3), () {
       navigateToNextPage();
     });
+  }
+
+  void navigateToNextPage() {
+    Get.toNamed('/payments');
   }
 
   Future<void> loadUserData() async {
@@ -45,16 +49,11 @@ class _CheckStudentState extends State<CheckStudent> {
       if (savedCodeNumber != "") {
         print("Getting UserInfo");
         print('Data loaded from SharedPreferences');
-        setState(() {}); // Trigger a rebuild to update the UI
+        setState(() {});
       }
     } catch (e) {
-      print('Error during loading data: $e');
+      print('에러발생: $e');
     }
-  }
-
-  void navigateToNextPage() {
-    // Use Navigator to push a new page
-    Get.toNamed('/payments');
   }
 
   @override

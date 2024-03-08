@@ -16,13 +16,17 @@ Row paymentsItem({
       Expanded(
         child: Text(
           left,
-          style:contentsTitle ?DevCoopTextStyle.medium_30.copyWith(
-            color: DevCoopColors.black,
-          ) : !totalText ?DevCoopTextStyle.light_30.copyWith(
-            color: DevCoopColors.black,
-          ) : DevCoopTextStyle.bold_30.copyWith(
-            color: DevCoopColors.black,
-          ),
+          style: contentsTitle
+              ? DevCoopTextStyle.medium_30.copyWith(
+                  color: DevCoopColors.black,
+                )
+              : !totalText
+                  ? DevCoopTextStyle.light_30.copyWith(
+                      color: DevCoopColors.black,
+                    )
+                  : DevCoopTextStyle.bold_30.copyWith(
+                      color: DevCoopColors.black,
+                    ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -30,30 +34,34 @@ Row paymentsItem({
       Container(
         width: 155,
         alignment: Alignment.centerRight,
-        child: Text(
-          center,
-          style: contentsTitle ?DevCoopTextStyle.medium_30.copyWith(
-            color: DevCoopColors.black,
-          ) : !totalText ?DevCoopTextStyle.light_30.copyWith(
-            color: DevCoopColors.black,
-          ) : DevCoopTextStyle.bold_30.copyWith(
-            color: DevCoopColors.black,
-          )
-        ),
+        child: Text(center,
+            style: contentsTitle
+                ? DevCoopTextStyle.medium_30.copyWith(
+                    color: DevCoopColors.black,
+                  )
+                : !totalText
+                    ? DevCoopTextStyle.light_30.copyWith(
+                        color: DevCoopColors.black,
+                      )
+                    : DevCoopTextStyle.bold_30.copyWith(
+                        color: DevCoopColors.black,
+                      )),
       ),
       Container(
         width: 155,
         alignment: Alignment.centerRight,
-        child: Text(
-            rightText ?? NumberFormatUtil.convert1000Number(right!),
-          style: contentsTitle ?DevCoopTextStyle.medium_30.copyWith(
-            color: DevCoopColors.black,
-          ) : !totalText ?DevCoopTextStyle.light_30.copyWith(
-            color: DevCoopColors.black,
-          ) : DevCoopTextStyle.bold_30.copyWith(
-            color: DevCoopColors.black,
-          )
-        ),
+        child: Text(rightText ?? NumberFormatUtil.convert1000Number(right!),
+            style: contentsTitle
+                ? DevCoopTextStyle.medium_30.copyWith(
+                    color: DevCoopColors.black,
+                  )
+                : !totalText
+                    ? DevCoopTextStyle.light_30.copyWith(
+                        color: DevCoopColors.black,
+                      )
+                    : DevCoopTextStyle.bold_30.copyWith(
+                        color: DevCoopColors.black,
+                      )),
       ),
     ],
   );
