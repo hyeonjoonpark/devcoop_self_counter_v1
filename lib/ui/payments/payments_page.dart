@@ -15,15 +15,15 @@ class PaymentsPage extends StatefulWidget {
   PaymentsPage({Key? key}) : super(key: key);
 
   @override
-  _PaymentsPageState createState() => _PaymentsPageState();
+  State<PaymentsPage> createState() => _PaymentsPageState();
 }
 
 class _PaymentsPageState extends State<PaymentsPage> {
   String savedStudentName = '';
   int savedPoint = 0;
   int totalPrice = 0;
-  String? savedCodeNumber; // 수정: null 허용
-  String? savedUserId; // 수정: null 허용
+  String? savedCodeNumber;
+  String? savedUserId;
   List<ItemResponseDto> itemResponses = [];
 
   TextEditingController barcodeController = TextEditingController();
@@ -43,7 +43,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
         savedPoint = prefs.getInt('point') ?? 0;
         savedStudentName = prefs.getString('studentName') ?? '';
         savedCodeNumber = prefs.getString('codeNumber'); // 수정
-        savedUserId = prefs.getString('studentName'); // 수정
       });
 
       if (savedPoint != 0 && savedStudentName.isNotEmpty) {
