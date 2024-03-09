@@ -4,7 +4,7 @@ import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
 import 'package:get/get.dart';
 
 class MyHome extends StatelessWidget {
-  const MyHome({Key? key});
+  const MyHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ class BarcodePage extends StatefulWidget {
   const BarcodePage({Key? key}) : super(key: key);
 
   @override
-  _BarcodePageState createState() => _BarcodePageState();
+  State<BarcodePage> createState() => _BarcodePageState();
 }
 
 class _BarcodePageState extends State<BarcodePage> {
