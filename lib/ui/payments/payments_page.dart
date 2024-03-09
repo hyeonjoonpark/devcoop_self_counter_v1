@@ -12,7 +12,7 @@ import 'widgets/payments_item.dart';
 import 'widgets/payments_popup.dart';
 
 class PaymentsPage extends StatefulWidget {
-  PaymentsPage({Key? key}) : super(key: key);
+  const PaymentsPage({Key? key}) : super(key: key);
 
   @override
   State<PaymentsPage> createState() => _PaymentsPageState();

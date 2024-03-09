@@ -4,17 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../_constant/theme/devcoop_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: CheckStudent(),
-  ));
-}
-
 class CheckStudent extends StatefulWidget {
-  CheckStudent();
+  const CheckStudent({Key? key}) : super(key: key);
 
   @override
-  _CheckStudentState createState() => _CheckStudentState();
+  State<CheckStudent> createState() => _CheckStudentState();
 }
 
 class _CheckStudentState extends State<CheckStudent> {

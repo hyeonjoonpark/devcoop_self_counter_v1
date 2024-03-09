@@ -12,7 +12,7 @@ class PinPage extends StatefulWidget {
   const PinPage({Key? key, required this.codeNumber}) : super(key: key);
 
   @override
-  _PinPageState createState() => _PinPageState();
+  State<PinPage> createState() => _PinPageState();
 }
 
 class _PinPageState extends State<PinPage> {
