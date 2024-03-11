@@ -208,6 +208,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
+                    // TODO : 학생이름이 한글 인코딩이 깨지는 문제 해결
                     '$savedStudentName 학생  |  $savedPoint 원',
                     style: const TextStyle(
                       fontSize: 30,
