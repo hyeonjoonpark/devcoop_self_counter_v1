@@ -205,35 +205,43 @@ class _PaymentsPageState extends State<PaymentsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     '$savedStudentName 학생  |  $savedPoint 원',
                     style: const TextStyle(
-                      fontSize: 40,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: TextFormField(
-                      // TextFormField로 변경
-                      controller: barcodeController,
-                      focusNode: barcodeFocusNode,
-                      decoration: const InputDecoration(
-                        hintText: '상품 바코드를 입력해주세요',
+                  const SizedBox(width: 30),
+                  Row(
+                    children: [
+                      Container(
+                        height: 60.0, // 원하는 높이로 조정
+                        width: 300.0, // 원하는 너비로 조정
+                        child: TextFormField(
+                          controller: barcodeController,
+                          focusNode: barcodeFocusNode,
+                          decoration: const InputDecoration(
+                            hintText: '상품 바코드를 입력해주세요',
+                          ),
+                          onFieldSubmitted: (_) {
+                            handleBarcodeSubmit();
+                          },
+                        ),
                       ),
-                      onFieldSubmitted: (_) {
-                        handleBarcodeSubmit();
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  mainTextButton(
-                    text: '상품선택',
-                    onTap: () {
-                      handleBarcodeSubmit();
-                    },
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      mainTextButton(
+                        text: '상품선택',
+                        onTap: () {
+                          handleBarcodeSubmit();
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
