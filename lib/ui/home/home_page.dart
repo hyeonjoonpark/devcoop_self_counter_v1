@@ -9,25 +9,21 @@ class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Center(
-            child: GestureDetector(
-              onTap: () {
-                Get.toNamed('/barcode');
-              },
-              child: Container(
-                margin: const EdgeInsets.only(top: 600), // 사용자 지정 단위로 마진 설정
-                child: Text(
-                  'touch to start',
-                  style: DevCoopTextStyle.bold_50.copyWith(
-                    color: DevCoopColors.black,
-                  ),
-                ),
+      body: GestureDetector(
+        onTap: () {
+          Get.toNamed('/barcode');
+        },
+        child: Container(
+          margin: const EdgeInsets.only(top: 500), // 사용자 지정 단위로 마진 설정
+          child: Center(
+            child: Text(
+              'touch to start',
+              style: DevCoopTextStyle.bold_50.copyWith(
+                color: DevCoopColors.black,
               ),
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
