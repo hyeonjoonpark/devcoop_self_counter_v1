@@ -7,6 +7,11 @@ import 'package:flutter/services.dart';
 import '../../controller/login.dart';
 import 'package:get/get.dart';
 
+/**
+ * TODO : 숫자패드로 입력안되는 현상 수정
+ * TODO : 자동 포커스 제대로 수정
+ */
+
 class PinPage extends StatefulWidget {
   final String codeNumber;
   const PinPage({Key? key, required this.codeNumber}) : super(key: key);
