@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:counter/controller/save_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,10 +32,9 @@ class LoginController {
       if (response.statusCode == 200) {
         print("로그인 성공");
 
-        Map<String, dynamic> responseBody =
-            json.decode(response.body) as Map<String, dynamic>;
-
-        jsonDecode(utf8.decode(response.bodyBytes))['result'];
+        // 응답 본문을 UTF-8로 디코딩
+        Map<String, dynamic> responseBody = json
+            .decode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
 
         print("responseBody = $responseBody");
 
