@@ -1,17 +1,9 @@
-import 'package:counter/ui/_constant/component/button.dart';
-import 'package:counter/ui/_constant/theme/devcoop_text_style.dart';
-import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
-// TODO : 디자인 갈아엎어야 함
-
-/**
- * TODO :
- * 1. 학생증 바코드 스캔페이지 디자인 UI/UX 수정
- * 2. 바코드 입력창에 입력이 안되는 문제 해결
- */
+import 'package:counter/ui/_constant/component/button.dart';
+import 'package:counter/ui/_constant/theme/devcoop_text_style.dart';
+import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
 
 class BarcodePage extends StatefulWidget {
   const BarcodePage({Key? key}) : super(key: key);
@@ -24,6 +16,21 @@ class _BarcodePageState extends State<BarcodePage> {
   final TextEditingController _codeNumberController =
       TextEditingController(text: '');
   final FocusNode _barcodeFocus = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    // 화면이 나타난 후에 포커스를 지정
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_barcodeFocus);
+    });
+  }
+
+  @override
+  void dispose() {
+    _barcodeFocus.dispose();
+    super.dispose();
+  }
 
   void _setActiveController(TextEditingController controller) {
     setState(() {});
@@ -59,7 +66,6 @@ class _BarcodePageState extends State<BarcodePage> {
                       Row(
                         children: [
                           SizedBox(
-                            // width: 160,
                             child: Text(
                               '학생증 번호',
                               style: DevCoopTextStyle.medium_30.copyWith(
