@@ -60,6 +60,7 @@ class _CheckStudentState extends State<CheckStudent> {
             Container(
               margin: const EdgeInsets.only(top: 24),
               child: Text(
+                // TODO : savedStudentName 한글이 깨져서 나오는 현상 수정
                 '${savedStudentName} 학생 \n 잔액 ${savedPoint}원 조회되었습니다',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.nanumGothic(
