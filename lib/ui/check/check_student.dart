@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,17 +35,23 @@ class _CheckStudentState extends State<CheckStudent> {
 
   Future<void> loadUserData() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String? savedCodeNumber = prefs.getString('codeNumber');
-      savedPoint = prefs.getInt('point') ?? 0;
-      savedStudentName = prefs.getString('studentName') ?? '';
-      savedCodeNumber = prefs.getString('codeNumber') ?? '';
+      final String? loadedStudentName = prefs.getString('studentName');
+      final int loadedPoint = prefs.getInt('point') ?? 0;
+      final String? loadedCodeNumber = prefs.getString('codeNumber');
 
-      if (savedCodeNumber != "") {
+      utf8.decode(loadedStudentName!.codeUnits);
+
+      if (loadedCodeNumber != null && loadedCodeNumber.isNotEmpty) {
         print("Getting UserInfo");
         print('Data loaded from SharedPreferences');
-        setState(() {});
+
+        setState(() {
+          savedStudentName = loadedStudentName;
+          savedPoint = loadedPoint;
+          savedCodeNumber = loadedCodeNumber;
+        });
       }
     } catch (e) {
       print('에러발생: $e');

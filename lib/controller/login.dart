@@ -27,6 +27,8 @@ class LoginController {
         body: jsonData,
       );
 
+      utf8.decode(response.bodyBytes);
+
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
 

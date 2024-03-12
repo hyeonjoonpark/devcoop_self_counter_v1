@@ -161,6 +161,8 @@ class _PaymentsPageState extends State<PaymentsPage> {
             }),
           );
 
+          utf8.decode(response.bodyBytes);
+
           print("-----------------");
           print(response.body);
 
