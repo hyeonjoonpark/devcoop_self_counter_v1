@@ -1,4 +1,3 @@
-import 'package:counter/controller/number_click.dart';
 import 'package:counter/ui/_constant/component/button.dart';
 import 'package:counter/ui/_constant/theme/devcoop_text_style.dart';
 import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
@@ -26,6 +25,26 @@ class _PinPageState extends State<PinPage> {
 
   void _setActiveController(TextEditingController controller) {
     setState(() {});
+  }
+
+  void onNumberButtonPressed(
+      int number, TextEditingController _activeController) {
+    if (_activeController.text != '') {
+      String currentText = _activeController.text;
+
+      if (number == 10) {
+        _activeController.clear(); // Clear focus and text
+      } else if (number == 12) {
+        // Del button
+        if (currentText.isNotEmpty) {
+          String newText = currentText.substring(0, currentText.length - 1);
+          _activeController.text = newText;
+        }
+      } else {
+        String newText = currentText + (number == 11 ? '0' : number.toString());
+        _activeController.text = newText;
+      }
+    }
   }
 
   @override

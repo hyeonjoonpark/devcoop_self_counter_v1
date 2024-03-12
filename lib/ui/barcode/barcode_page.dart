@@ -27,11 +27,11 @@ class _BarcodePageState extends State<BarcodePage> {
     });
   }
 
-  @override
-  void dispose() {
-    _barcodeFocus.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _barcodeFocus.dispose();
+  //   super.dispose();
+  // }
 
   void _setActiveController(TextEditingController controller) {
     setState(() {});

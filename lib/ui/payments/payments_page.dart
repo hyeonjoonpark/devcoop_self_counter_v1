@@ -160,10 +160,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
           }),
         );
 
-        utf8.decode(response.bodyBytes);
-
         print("-----------------");
-        print(response.body);
+        // UTF-8로 응답 본문 디코드
+        final decodedResponseBody = utf8.decode(response.bodyBytes);
+        print(decodedResponseBody);
 
         if (response.statusCode == 200) {
           print("응답상태 : ${response.statusCode}");
