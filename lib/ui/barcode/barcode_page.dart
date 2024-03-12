@@ -5,7 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-// TODO: 디자인 갈아엎어야 함
+// TODO : 디자인 갈아엎어야 함
+
+/**
+ * TODO :
+ * 1. 학생증 바코드 스캔페이지 디자인 UI/UX 수정
+ * 2. 바코드 입력창에 입력이 안되는 문제 해결
+ */
 
 class BarcodePage extends StatefulWidget {
   const BarcodePage({Key? key}) : super(key: key);
