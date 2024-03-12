@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:counter/ui/_constant/component/button.dart';
 import 'package:counter/ui/_constant/theme/devcoop_text_style.dart';
 import 'package:counter/ui/_constant/theme/devcoop_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 
 class BarcodePage extends StatefulWidget {
   const BarcodePage({Key? key}) : super(key: key);
