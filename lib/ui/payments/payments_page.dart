@@ -132,52 +132,54 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
   }
 
-  Future<void> payments(List<ItemResponseDto> items) async {
-    for (ItemResponseDto item in items) {
-      try {
-        if (savedUserId != null) {
-          const apiUrl = 'http://localhost:8080/kiosk/executePayments';
-          final response = await http.post(
-            Uri.parse(apiUrl),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
+  Future<void> processPayment(ItemResponseDto item) async {
+    try {
+      if (savedUserId != null) {
+        const apiUrl = 'http://localhost:8080/kiosk/executePayments';
+        final response = await http.post(
+          Uri.parse(apiUrl),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+            "userPointRequestDto": {
+              "codeNumber": savedCodeNumber,
+              "totalPrice": totalPrice
             },
-            body: jsonEncode(<String, dynamic>{
-              "userPointRequestDto": {
-                "codeNumber": savedCodeNumber,
-                "totalPrice": totalPrice
-              },
-              "payLogRequestDto": {
-                "codeNumber": savedCodeNumber,
-                "innerPoint": totalPrice,
-                "studentName": savedStudentName,
-              },
-              "kioskDto": {
-                "dcmSaleAmt": item.itemPrice,
-                "userId": savedCodeNumber,
-                "itemName": item.itemName,
-                "saleQty": item.quantity
-              }
-            }),
-          );
+            "payLogRequestDto": {
+              "codeNumber": savedCodeNumber,
+              "innerPoint": totalPrice,
+              "studentName": savedStudentName,
+            },
+            "kioskDto": {
+              "dcmSaleAmt": item.itemPrice,
+              "userId": savedCodeNumber,
+              "itemName": item.itemName,
+              "saleQty": item.quantity
+            }
+          }),
+        );
 
-          utf8.decode(response.bodyBytes);
+        utf8.decode(response.bodyBytes);
 
-          print("-----------------");
-          print(response.body);
+        print("-----------------");
+        print(response.body);
 
-          if (response.statusCode == 200) {
-            print("응답상태 : ${response.statusCode}");
-            print('${item.itemName}에 대한 영수증이 성공적으로 저장되었습니다.');
-          } else {
-            print("응답상태 : ${response.statusCode}");
-            print('${item.itemName}에 대한 영수증 저장 실패');
-          }
+        if (response.statusCode == 200) {
+          print("응답상태 : ${response.statusCode}");
+          print('${item.itemName}에 대한 영수증이 성공적으로 저장되었습니다.');
+        } else {
+          print("응답상태 : ${response.statusCode}");
+          print('${item.itemName}에 대한 영수증 저장 실패');
         }
-      } catch (e) {
-        print('영수증을 저장하는 동안 오류가 발생했습니다: $e');
       }
+    } catch (e) {
+      print('영수증을 저장하는 동안 오류가 발생했습니다: $e');
     }
+  }
+
+  Future<void> payments(List<ItemResponseDto> items) async {
+    await Future.wait(items.map(processPayment));
   }
 
   @override

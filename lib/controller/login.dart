@@ -27,8 +27,6 @@ class LoginController {
         body: jsonData,
       );
 
-      utf8.decode(response.bodyBytes);
-
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
 
@@ -37,6 +35,10 @@ class LoginController {
 
         Map<String, dynamic> responseBody =
             json.decode(response.body) as Map<String, dynamic>;
+
+        jsonDecode(utf8.decode(response.bodyBytes))['result'];
+
+        print("responseBody = $responseBody");
 
         String token = responseBody['token'] ?? '';
         String studentName = responseBody['studentName'] ?? '';
