@@ -41,14 +41,12 @@ class _CheckStudentState extends State<CheckStudent> {
       final int loadedPoint = prefs.getInt('point') ?? 0;
       final String? loadedCodeNumber = prefs.getString('codeNumber');
 
-      utf8.decode(loadedStudentName!.codeUnits);
-
       if (loadedCodeNumber != null && loadedCodeNumber.isNotEmpty) {
         print("Getting UserInfo");
         print('Data loaded from SharedPreferences');
 
         setState(() {
-          savedStudentName = loadedStudentName;
+          savedStudentName = loadedStudentName!;
           savedPoint = loadedPoint;
           savedCodeNumber = loadedCodeNumber;
         });
