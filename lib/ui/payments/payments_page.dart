@@ -136,7 +136,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
     for (ItemResponseDto item in items) {
       try {
         if (savedUserId != null) {
-          // Check if savedUserId is not null
           const apiUrl = 'http://localhost:8080/kiosk/executePayments';
           final response = await http.post(
             Uri.parse(apiUrl),
