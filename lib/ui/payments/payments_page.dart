@@ -23,7 +23,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
   int savedPoint = 0;
   int totalPrice = 0;
   String? savedCodeNumber;
-  String? savedUserId;
   List<ItemResponseDto> itemResponses = [];
 
   TextEditingController barcodeController = TextEditingController();
@@ -133,11 +132,15 @@ class _PaymentsPageState extends State<PaymentsPage> {
   }
 
   Future<void> payments(List<ItemResponseDto> items) async {
+    print('payments 함수가 호출되었습니다.');
     for (ItemResponseDto item in items) {
+      print('처리중인 아이템: ${item.itemName}');
       try {
-        if (savedUserId != null) {
+        print("savedUserId : $savedCodeNumber");
+        if (savedCodeNumber != null) {
           const apiUrl = 'http://localhost:8080/kiosk/executePayments';
 
+          print(apiUrl);
           print(
               "request user : $savedCodeNumber - $savedStudentName - $totalPrice");
 
@@ -357,9 +360,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
                         ),
                         mainTextButton(
                           text: '계산하기',
-                          onTap: () {
-                            payments(itemResponses);
-                            showPaymentsPopup(context, totalPrice);
+                          onTap: () async {
+                            print("계산하기 버튼 클릭");
+                            print("itemResponses : $itemResponses[0]");
+                            // onTap 콜백을 async로 선언하여 비동기 처리 가능
+                            await payments(
+                                itemResponses); // payments 함수가 완료될 때까지 기다림
+                            showPaymentsPopup(
+                                context, totalPrice); // payments 함수 완료 후 팝업 보여줌
                           },
                         ),
                       ],
