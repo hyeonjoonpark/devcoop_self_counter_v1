@@ -7,8 +7,8 @@ import '../../controller/login.dart';
 import 'package:get/get.dart';
 
 /**
- * TODO : 숫자패드로 입력안되는 현상 수정
- * TODO : 자동 포커스 제대로 수정
+ * TODO : 숫자패드로 입력안되는 현상 수정 (진행중)
+ * TODO : 자동 포커스 제대로 수정 (완료)
  */
 
 class PinPage extends StatefulWidget {
@@ -21,29 +21,37 @@ class PinPage extends StatefulWidget {
 
 class _PinPageState extends State<PinPage> {
   final TextEditingController _pinController = TextEditingController();
-  final FocusNode _barcodeFocus = FocusNode();
+  final FocusNode _pinFocus = FocusNode();
 
   void _setActiveController(TextEditingController controller) {
     setState(() {});
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // 화면이 나타난 후에 포커스를 지정
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).requestFocus(_pinFocus);
+    });
+  }
+
   void onNumberButtonPressed(
       int number, TextEditingController _activeController) {
-    if (_activeController.text != '') {
-      String currentText = _activeController.text;
+    String currentText = _activeController.text;
 
-      if (number == 10) {
-        _activeController.clear(); // Clear focus and text
-      } else if (number == 12) {
-        // Del button
-        if (currentText.isNotEmpty) {
-          String newText = currentText.substring(0, currentText.length - 1);
-          _activeController.text = newText;
-        }
-      } else {
-        String newText = currentText + (number == 11 ? '0' : number.toString());
+    if (number == 10) {
+      _activeController.clear(); // Clear focus and text
+    } else if (number == 12) {
+      // Del button
+      if (currentText.isNotEmpty) {
+        String newText = currentText.substring(0, currentText.length - 1);
         _activeController.text = newText;
       }
+    } else {
+      // 숫자 버튼 (0 포함)
+      String newText = currentText + (number == 11 ? '0' : number.toString());
+      _activeController.text = newText;
     }
   }
 
@@ -73,6 +81,7 @@ class _PinPageState extends State<PinPage> {
                 Expanded(
                   child: Column(
                     children: [
+                      // TODO : 숫자패드 입력하면 텍스트필드에 입력이 안됨
                       for (int i = 0; i < 4; i++) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -153,7 +162,7 @@ class _PinPageState extends State<PinPage> {
                                 ),
                                 child: TextField(
                                   controller: _pinController,
-                                  focusNode: _barcodeFocus,
+                                  focusNode: _pinFocus,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
