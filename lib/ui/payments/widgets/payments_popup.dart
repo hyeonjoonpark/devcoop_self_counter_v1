@@ -18,7 +18,7 @@ Future<void> removeUserData() async {
 
 void navigateToNextPage() {
   // Use Navigator to push a new page
-  Get.toNamed('/');
+  Get.offAllNamed('/');
 }
 
 AlertDialog paymentsPopUp(BuildContext context, int totalPrice) {
