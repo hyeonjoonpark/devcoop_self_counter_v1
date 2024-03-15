@@ -14,44 +14,43 @@ class BarcodePage extends StatefulWidget {
 }
 
 class _BarcodePageState extends State<BarcodePage> {
-  final TextEditingController _codeNumberController =
-      TextEditingController(text: '');
+  late TextEditingController _codeNumberController;
   final FocusNode _barcodeFocus = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _codeNumberController = TextEditingController(text: '');
     // 화면이 나타난 후에 포커스를 지정
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       FocusScope.of(context).requestFocus(_barcodeFocus);
     });
   }
 
-  // @override
-  // void dispose() {
-  //   _barcodeFocus.dispose();
-  //   super.dispose();
-  // }
-
   @override
   void dispose() {
     _barcodeFocus.dispose();
+    _codeNumberController.dispose(); // TextEditingController도 dispose 해야 합니다.
     super.dispose();
   }
 
-  void _setActiveController(TextEditingController controller) {
-    setState(() {});
+  void _setActiveController() {
+    setState(() {
+      // TextEditingController의 텍스트를 초기화합니다.
+      _codeNumberController.text = '';
+      // 포커스를 재지정할 필요가 있으면 아래 주석을 해제하세요.
+      // FocusScope.of(context).requestFocus(_barcodeFocus);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        // 전체를 가운데 정렬하기 위해 Center 위젯 사용
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 90),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // 세로 방향으로 가운데 정렬
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "학생증의 바코드를\n리더기로 스캔해주세요.",
@@ -61,20 +60,13 @@ class _BarcodePageState extends State<BarcodePage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 160),
-              // SvgPicture.asset(
-              //   'assets/images/AriPayL_ver2.svg',
-              //   width: 150,
-              //   height: 150,
-              // ),
               const SizedBox(height: 40),
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.center, // 가로 방향으로 가운데 정렬
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, // Row 내부 요소 가운데 정렬
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           '학생증 번호',
@@ -85,11 +77,11 @@ class _BarcodePageState extends State<BarcodePage> {
                         const SizedBox(width: 40),
                         GestureDetector(
                           onTap: () {
-                            _setActiveController(_codeNumberController);
+                            _setActiveController();
                           },
                           child: Container(
                             alignment: Alignment.center,
-                            width: 500, // Container 가로 크기를 500으로 설정
+                            width: 500,
                             padding: const EdgeInsets.symmetric(
                                 vertical: 34, horizontal: 12),
                             decoration: BoxDecoration(
@@ -115,8 +107,7 @@ class _BarcodePageState extends State<BarcodePage> {
                     ),
                     const SizedBox(height: 60),
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, // Row 내부 요소 가운데 정렬
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         mainTextButton(
                           text: '처음으로',
