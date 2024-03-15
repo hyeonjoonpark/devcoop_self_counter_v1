@@ -13,7 +13,7 @@ class BarcodePage extends StatefulWidget {
   State<BarcodePage> createState() => _BarcodePageState();
 }
 
-class _BarcodePageState extends State<BarcodePage> {
+class _BarcodePageState extends State<BarcodePage> with WidgetsBindingObserver {
   late TextEditingController _codeNumberController;
   final FocusNode _barcodeFocus = FocusNode();
 
@@ -21,17 +21,10 @@ class _BarcodePageState extends State<BarcodePage> {
   void initState() {
     super.initState();
     _codeNumberController = TextEditingController(text: '');
-    // 화면이 나타난 후에 포커스를 지정
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      FocusScope.of(context).requestFocus(_barcodeFocus);
+    WidgetsBinding.instance.addObserver(this); // Observer를 추가합니다.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _refreshContent(); // 화면이 나타난 후 콘텐츠를 새로고침합니다.
     });
-  }
-
-  @override
-  void dispose() {
-    _barcodeFocus.dispose();
-    _codeNumberController.dispose(); // TextEditingController도 dispose 해야 합니다.
-    super.dispose();
   }
 
   void _setActiveController() {
@@ -40,6 +33,29 @@ class _BarcodePageState extends State<BarcodePage> {
       _codeNumberController.text = '';
       // 포커스를 재지정할 필요가 있으면 아래 주석을 해제하세요.
       // FocusScope.of(context).requestFocus(_barcodeFocus);
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this); // Observer를 제거합니다.
+    _barcodeFocus.dispose();
+    _codeNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // 앱이 다시 활성화될 때 콘텐츠를 새로고침합니다.
+      _refreshContent();
+    }
+  }
+
+  void _refreshContent() {
+    setState(() {
+      _codeNumberController.text = '';
+      FocusScope.of(context).requestFocus(_barcodeFocus);
     });
   }
 
