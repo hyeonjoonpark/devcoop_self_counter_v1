@@ -16,6 +16,7 @@ class BarcodePage extends StatefulWidget {
 class _BarcodePageState extends State<BarcodePage> with WidgetsBindingObserver {
   late TextEditingController _codeNumberController;
   final FocusNode _barcodeFocus = FocusNode();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -32,7 +33,7 @@ class _BarcodePageState extends State<BarcodePage> with WidgetsBindingObserver {
       // TextEditingController의 텍스트를 초기화합니다.
       _codeNumberController.text = '';
       // 포커스를 재지정할 필요가 있으면 아래 주석을 해제하세요.
-      // FocusScope.of(context).requestFocus(_barcodeFocus);
+      FocusScope.of(context).requestFocus(_barcodeFocus);
     });
   }
 
@@ -65,86 +66,94 @@ class _BarcodePageState extends State<BarcodePage> with WidgetsBindingObserver {
       body: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 90),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "학생증의 바코드를\n리더기로 스캔해주세요.",
-                style: DevCoopTextStyle.bold_40.copyWith(
-                  color: DevCoopColors.black,
+          child: Form(
+            // Form 위젯을 추가합니다.
+            key: _formKey, // GlobalKey<FormState>를 할당합니다.
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "학생증의 바코드를\n리더기로 스캔해주세요.",
+                  style: DevCoopTextStyle.bold_40.copyWith(
+                    color: DevCoopColors.black,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 160),
-              const SizedBox(height: 40),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '학생증 번호',
-                          style: DevCoopTextStyle.medium_30.copyWith(
-                            color: DevCoopColors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 40),
-                        GestureDetector(
-                          onTap: () {
-                            _setActiveController();
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 500,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 34, horizontal: 12),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFECECEC),
-                              borderRadius: BorderRadius.circular(20),
+                const SizedBox(height: 160),
+                const SizedBox(height: 40),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '학생증 번호',
+                            style: DevCoopTextStyle.medium_30.copyWith(
+                              color: DevCoopColors.black,
                             ),
-                            child: TextField(
-                              controller: _codeNumberController,
-                              focusNode: _barcodeFocus,
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.zero,
-                                isDense: true,
-                                hintText: '학생증을 리더기에 스캔해주세요',
-                                hintStyle: DevCoopTextStyle.medium_30
-                                    .copyWith(fontSize: 15),
-                                border: InputBorder.none,
+                          ),
+                          const SizedBox(width: 40),
+                          GestureDetector(
+                            onTap: () {
+                              _setActiveController();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: 500,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 34, horizontal: 12),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFECECEC),
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              maxLines: 1,
+                              child: TextFormField(
+                                // TextField 대신 TextFormField을 사용합니다.
+                                controller: _codeNumberController,
+                                focusNode: _barcodeFocus,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  isDense: true,
+                                  hintText: '학생증을 리더기에 스캔해주세요',
+                                  hintStyle: DevCoopTextStyle.medium_30
+                                      .copyWith(fontSize: 15),
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: 1,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 60),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        mainTextButton(
-                          text: '처음으로',
-                          onTap: () {
-                            Get.toNamed('/home');
-                          },
-                        ),
-                        const SizedBox(width: 40),
-                        mainTextButton(
-                          text: '다음으로',
-                          onTap: () {
-                            Get.toNamed("/pin",
-                                arguments: _codeNumberController.text);
-                          },
-                        ),
-                      ],
-                    )
-                  ],
+                        ],
+                      ),
+                      const SizedBox(height: 60),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          mainTextButton(
+                            text: '처음으로',
+                            onTap: () {
+                              Get.toNamed('/home');
+                            },
+                          ),
+                          const SizedBox(width: 40),
+                          mainTextButton(
+                            text: '다음으로',
+                            onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Form이 유효할 경우에만 네비게이션을 실행합니다.
+                                Get.toNamed("/pin",
+                                    arguments: _codeNumberController.text);
+                              }
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
