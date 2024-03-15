@@ -49,7 +49,7 @@ class LoginController {
         print(result);
         print("저장성공");
 
-        Get.toNamed('/check');
+        Get.offAllNamed('/check');
       }
     } catch (e) {
       print("Exception caught: $e");
