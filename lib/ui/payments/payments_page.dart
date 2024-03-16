@@ -106,11 +106,12 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
   }
 
-  void showPaymentsPopup(BuildContext context, int totalPrice) {
+// 결제 후 남은 포인트를 팝업창에 띄우는 로직 추가
+  void showPaymentsPopup(BuildContext context, int totalPrice, int savedPoint) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return paymentsPopUp(context, totalPrice);
+        return paymentsPopUp(context, totalPrice, savedPoint);
       },
     );
   }
@@ -367,7 +368,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             await payments(
                                 itemResponses); // payments 함수가 완료될 때까지 기다림
                             showPaymentsPopup(
-                                context, totalPrice); // payments 함수 완료 후 팝업 보여줌
+                              context,
+                              totalPrice,
+                              savedPoint - totalPrice,
+                            ); // payments 함수 완료 후 팝업 보여줌
                           },
                         ),
                       ],
