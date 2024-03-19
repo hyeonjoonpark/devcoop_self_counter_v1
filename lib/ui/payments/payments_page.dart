@@ -151,16 +151,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(<String, dynamic>{
-              "userPointRequestDto": {
+              "userPointRequest": {
                 "codeNumber": savedCodeNumber,
                 "totalPrice": totalPrice
               },
-              "payLogRequestDto": {
+              "payLogRequest": {
                 "codeNumber": savedCodeNumber,
                 "innerPoint": totalPrice,
                 "studentName": savedStudentName,
               },
-              "kioskDto": {
+              "kioskRequest": {
                 "dcmSaleAmt": item.itemPrice,
                 "userId": savedCodeNumber,
                 "itemName": item.itemName,
