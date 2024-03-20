@@ -14,7 +14,7 @@ class LoginController {
     String jsonData = json.encode(requestBody);
     print(jsonData);
 
-    String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
+    String apiUrl = 'http://10.129.57.5:8080/kiosk/auth/signIn';
     print(apiUrl);
 
     try {
@@ -49,7 +49,7 @@ class LoginController {
         print(result);
         print("저장성공");
 
-        Get.toNamed('/check');
+        Get.offAllNamed('/check');
       }
     } catch (e) {
       print("Exception caught: $e");

@@ -160,13 +160,21 @@ class _PinPageState extends State<PinPage> {
                                     20,
                                   ),
                                 ),
-                                child: TextField(
+                                child: TextFormField(
+                                  // TextField 대신 TextFormField을 사용합니다.
                                   controller: _pinController,
                                   focusNode: _pinFocus,
+                                  validator: (value) {
+                                    // 여기에 validator 추가
+                                    if (value == null || value.isEmpty) {
+                                      return '학생증 번호를 입력해주세요.';
+                                    }
+                                    return null;
+                                  },
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
-                                    hintText: '핀번호를 입력해주세요',
+                                    hintText: '학생증을 리더기에 스캔해주세요',
                                     hintStyle: DevCoopTextStyle.medium_30
                                         .copyWith(fontSize: 15),
                                     border: InputBorder.none,
@@ -187,7 +195,7 @@ class _PinPageState extends State<PinPage> {
                           mainTextButton(
                             text: '처음으로',
                             onTap: () {
-                              Get.toNamed('/home');
+                              Get.offAllNamed('/home');
                             },
                           ),
                           mainTextButton(

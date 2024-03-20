@@ -60,7 +60,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
   // fetchItemData 함수에서 ItemResponseDto 생성자 호출 시 itemId 추가
   Future<void> fetchItemData(String barcode, int quantity) async {
     try {
-      const apiUrl = 'http://localhost:8080/kiosk';
+      const apiUrl = 'http://10.129.57.5:8080/kiosk';
       final response =
           await http.get(Uri.parse('$apiUrl/itemSelect?barcodes=$barcode'));
 
@@ -106,11 +106,12 @@ class _PaymentsPageState extends State<PaymentsPage> {
     }
   }
 
-  void showPaymentsPopup(BuildContext context, int totalPrice) {
+// 결제 후 남은 포인트를 팝업창에 띄우는 로직 추가
+  void showPaymentsPopup(BuildContext context, int totalPrice, int savedPoint) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return paymentsPopUp(context, totalPrice);
+        return paymentsPopUp(context, totalPrice, savedPoint);
       },
     );
   }
@@ -138,7 +139,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
       try {
         print("savedUserId : $savedCodeNumber");
         if (savedCodeNumber != null) {
-          const apiUrl = 'http://localhost:8080/kiosk/executePayments';
+          const apiUrl = 'http://10.129.57.5:8080/kiosk/executePayments';
 
           print(apiUrl);
           print(
@@ -150,16 +151,16 @@ class _PaymentsPageState extends State<PaymentsPage> {
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(<String, dynamic>{
-              "userPointRequestDto": {
+              "userPointRequest": {
                 "codeNumber": savedCodeNumber,
                 "totalPrice": totalPrice
               },
-              "payLogRequestDto": {
+              "payLogRequest": {
                 "codeNumber": savedCodeNumber,
                 "innerPoint": totalPrice,
                 "studentName": savedStudentName,
               },
-              "kioskDto": {
+              "kioskRequest": {
                 "dcmSaleAmt": item.itemPrice,
                 "userId": savedCodeNumber,
                 "itemName": item.itemName,
@@ -367,7 +368,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             await payments(
                                 itemResponses); // payments 함수가 완료될 때까지 기다림
                             showPaymentsPopup(
-                                context, totalPrice); // payments 함수 완료 후 팝업 보여줌
+                              context,
+                              totalPrice,
+                              savedPoint - totalPrice,
+                            ); // payments 함수 완료 후 팝업 보여줌
                           },
                         ),
                       ],

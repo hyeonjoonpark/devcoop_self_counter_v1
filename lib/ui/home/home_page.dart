@@ -11,7 +11,7 @@ class MyHome extends StatelessWidget {
     return Scaffold(
       body: GestureDetector(
         onTap: () {
-          Get.toNamed('/barcode');
+          Get.offAllNamed('/barcode');
         },
         child: Container(
           margin: const EdgeInsets.only(top: 500), // 사용자 지정 단위로 마진 설정
