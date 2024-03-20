@@ -14,7 +14,7 @@ class LoginController {
     String jsonData = json.encode(requestBody);
     print(jsonData);
 
-    String apiUrl = 'http://localhost:8080/kiosk/auth/signIn';
+    String apiUrl = 'http://10.129.57.5:8080/kiosk/auth/signIn';
     print(apiUrl);
 
     try {
