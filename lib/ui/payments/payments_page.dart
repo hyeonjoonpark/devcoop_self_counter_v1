@@ -60,7 +60,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
   // fetchItemData 함수에서 ItemResponseDto 생성자 호출 시 itemId 추가
   Future<void> fetchItemData(String barcode, int quantity) async {
     try {
-      const apiUrl = 'http://localhost:8080/kiosk';
+      const apiUrl = 'http://10.129.57.5:8080/kiosk';
       final response =
           await http.get(Uri.parse('$apiUrl/itemSelect?barcodes=$barcode'));
 
@@ -139,7 +139,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
       try {
         print("savedUserId : $savedCodeNumber");
         if (savedCodeNumber != null) {
-          const apiUrl = 'http://localhost:8080/kiosk/executePayments';
+          const apiUrl = 'http://10.129.57.5:8080/kiosk/executePayments';
 
           print(apiUrl);
           print(
