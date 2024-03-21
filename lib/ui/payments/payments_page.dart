@@ -25,7 +25,6 @@ class _PaymentsPageState extends State<PaymentsPage> {
   int totalPrice = 0;
   String? savedCodeNumber;
   List<ItemResponseDto> itemResponses = [];
-  final player = AudioPlayer();
 
   TextEditingController barcodeController = TextEditingController();
   FocusNode barcodeFocusNode = FocusNode();
