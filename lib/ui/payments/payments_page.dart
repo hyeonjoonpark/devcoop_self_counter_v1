@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
   int totalPrice = 0;
   String? savedCodeNumber;
   List<ItemResponseDto> itemResponses = [];
+  final player = AudioPlayer();
 
   TextEditingController barcodeController = TextEditingController();
   FocusNode barcodeFocusNode = FocusNode();
@@ -367,6 +369,10 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             // onTap 콜백을 async로 선언하여 비동기 처리 가능
                             await payments(
                                 itemResponses); // payments 함수가 완료될 때까지 기다림
+
+                            // assets/audio/finish.wav 파일을 재생
+                            await player
+                                .play(UrlSource('assets/audio/finish.wav'));
                             showPaymentsPopup(
                               context,
                               totalPrice,
