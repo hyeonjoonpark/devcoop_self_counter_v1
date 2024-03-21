@@ -28,12 +28,14 @@ dev_dependencies:
   freezed: ^2.4.5
   json_serializable: ^6.7.1
   flutter_svg: ^2.0.10+1
+  audioplayers: ^6.0.0
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/
+    - assets/audio/
 
   fonts:
     - family: GmarketSansB
