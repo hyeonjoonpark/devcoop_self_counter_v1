@@ -25,6 +25,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
   int totalPrice = 0;
   String? savedCodeNumber;
   List<ItemResponseDto> itemResponses = [];
+  final player = AudioPlayer();
 
   TextEditingController barcodeController = TextEditingController();
   FocusNode barcodeFocusNode = FocusNode();
@@ -369,6 +370,9 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             await payments(
                                 itemResponses); // payments 함수가 완료될 때까지 기다림
 
+                            // assets/audio/finish.wav 파일을 재생
+                            await player
+                                .play(UrlSource('assets/audio/finish.wav'));
                             showPaymentsPopup(
                               context,
                               totalPrice,
