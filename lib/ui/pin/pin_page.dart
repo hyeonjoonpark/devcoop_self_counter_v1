@@ -161,13 +161,14 @@ class _PinPageState extends State<PinPage> {
                                   ),
                                 ),
                                 child: TextFormField(
+                                  obscureText: true,
                                   // TextField 대신 TextFormField을 사용합니다.
                                   controller: _pinController,
                                   focusNode: _pinFocus,
                                   validator: (value) {
                                     // 여기에 validator 추가
                                     if (value == null || value.isEmpty) {
-                                      return '학생증 번호를 입력해주세요.';
+                                      return '핀 번호를 입력해주세요';
                                     }
                                     return null;
                                   },
