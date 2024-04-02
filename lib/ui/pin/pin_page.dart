@@ -174,7 +174,7 @@ class _PinPageState extends State<PinPage> {
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.zero,
                                     isDense: true,
-                                    hintText: '학생증을 리더기에 스캔해주세요',
+                                    hintText: '자신의 핀번호를 입력해주세요',
                                     hintStyle: DevCoopTextStyle.medium_30
                                         .copyWith(fontSize: 15),
                                     border: InputBorder.none,
