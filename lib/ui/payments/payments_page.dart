@@ -324,17 +324,27 @@ class _PaymentsPageState extends State<PaymentsPage> {
                       padding: const EdgeInsets.symmetric(
                         vertical: 40,
                       ),
-                      child: paymentsItem(
-                        left: '총 상품 개수 및 합계',
-                        center: itemResponses
-                            .map<int>((item) => item.quantity)
-                            .fold<int>(
-                                0,
-                                (previousValue, element) =>
-                                    previousValue + element)
-                            .toString(),
-                        rightText: totalPrice.toString(), // 수정: 값을 String으로 변환
-                      ),
+                      child: savedPoint - totalPrice >= 0
+                          ? paymentsItem(
+                              left: '총 상품 개수 및 합계',
+                              center: itemResponses
+                                  .map<int>((item) => item.quantity)
+                                  .fold<int>(
+                                      0,
+                                      (previousValue, element) =>
+                                          previousValue + element)
+                                  .toString(),
+                              rightText:
+                                  totalPrice.toString(), // 수정: 값을 String으로 변환
+                            )
+                          : const Text(
+                              "잔액이 부족합니다",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 30,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -367,17 +377,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
                             print("계산하기 버튼 클릭");
                             print("itemResponses : $itemResponses[0]");
                             // onTap 콜백을 async로 선언하여 비동기 처리 가능
-                            await payments(
-                                itemResponses); // payments 함수가 완료될 때까지 기다림
+                            savedPoint - totalPrice >= 0
+                                ? await payments(itemResponses).then((_) =>
+                                    showPaymentsPopup(context, totalPrice,
+                                        savedPoint - totalPrice))
+                                : // payments 함수가 완료될 때까지 기다림
 
-                            // assets/audio/finish.wav 파일을 재생
-                            await player
-                                .play(UrlSource('assets/audio/finish.wav'));
-                            showPaymentsPopup(
-                              context,
-                              totalPrice,
-                              savedPoint - totalPrice,
-                            ); // payments 함수 완료 후 팝업 보여줌
+                                // 잔액이 부족합니다 알람창 띄우기
+                                print("잔액이 부족합니다");
                           },
                         ),
                       ],
